@@ -19,7 +19,7 @@
 - ng in Angular ek prefix hai jo Angular-specific cheezon ko represent karta hai jaise Angular ke directives aur functionalities.
  Ye Angular framework ka short form bhi samjha ja sakta hai.
 
-# Project Structure
+# Angular Project Structure
 
 ```javascript
 my-angular-project/
@@ -36,8 +36,6 @@ my-angular-project/
 ├── package.json
 ```
 # Explain
-
-# Angular Project Structure
 
 **node_modules**: Yeh folder saari dependencies aur packages ko contain karta hai jo Angular project ke liye required hain.
 
@@ -67,4 +65,7 @@ my-angular-project/
 - **package.json**: Dependencies list
 - **tsconfig.json**: TypeScript compiler settings
 - **package-lock.json**: Exact versions of installed packages
+
+# AOT(Ahead of Time) and JIT compiler
+- AOT compilation build time per hota hai means  Compiles code before execution and jit me compilation run time par hota hai means Compiles code during execution.
 
