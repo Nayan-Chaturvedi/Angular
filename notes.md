@@ -68,4 +68,68 @@ my-angular-project/
 
 # AOT(Ahead of Time) and JIT compiler
 - AOT compilation build time per hota hai means  Compiles code before execution and jit me compilation run time par hota hai means Compiles code during execution.
+---
+
+# Component
+- Component Angular ka main building block hai. 
+**Component**: Yeh ek chhota part hota hai app ka jo specific functionality ko handle karta hai.
+
+**HTML**: Yeh component ka structure define karta hai.
+
+**CSS**: Yeh component ka styling define karta hai.
+
+**TypeScript**: Yeh component ki logic aur behavior define karta hai.
+
+## example-
+- Ek header component jo website ka header dikhata hai.
+
+- Ek login component jo login form handle karta hai.
+
+# Standalone component
+
+- Yeh component khud mein complete hota hai.
+- isse bina kisi module mein import kiye directly use kar sakte hain.
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-standalone',
+  templateUrl: './standalone.component.html',
+  styleUrls: ['./standalone.component.css'],
+  standalone: true
+})
+export class StandaloneComponent {}
+```
+- Yahan standalone: true property se pata chalta hai ki yeh ek standalone component hai. Directly use kar sakte ho
+
+---
+
+
+# Angular Application Run Process
+
+1. **Load index.html**: Browser pehle `index.html` load karta hai.
+2. **Initialize Angular Framework**: Angular framework initialize hota hai.
+3. **Bootstrap AppModule**: Main module (AppModule) bootstrapped hota hai.
+4. **Initialize AppComponent**: Main component (AppComponent) initialize hota hai.
+5. **Render Component Tree**: Component tree render hota hai.
+6. **Setup Event & Data Binding**: Event aur data binding setup hota hai.
+7. **Application Running**: Application chalne lagti hai.
+
+## Terminology
+
+### Bootstrapped:
+**Bootstrapped**: Matlab jab Angular application start hoti hai, usse "bootstrapping" kehte hain. Yeh process application ke main module ko initialize karta hai.
+
+### AppModule:
+**AppModule**: Yeh Angular ka main module hota hai, jo sare components, services, aur other modules ko bundle karta hai. Is module ko bootstrap karna pehle step hota hai.
+
+### AppComponent:
+**AppComponent**: Yeh Angular application ka root component hota hai, jo application ka starting point hai. Yeh component saari other components ko contain karta hai.
+
+### Render:
+**Render**: Matlab content ko browser mein display karna. Jab Angular component ko render karta hai, to uska HTML, CSS aur logic screen pe dikhata hai.
+
+
+
 
