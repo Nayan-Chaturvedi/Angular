@@ -111,7 +111,16 @@ export class StandaloneComponent {}
 1. **Load index.html**: Browser pehle `index.html` load karta hai.
 2. **Initialize Angular Framework**: Angular framework initialize hota hai.
 3. **Bootstrap AppModule**: Main module (AppModule) bootstrapped hota hai.
+```typescript
+main.ts
+bootstrapApplication(AppComponent, appConfig)
+.catch((err) => console.error(err));
+```
+	
 4. **Initialize AppComponent**: Main component (AppComponent) initialize hota hai.
+```typescript
+bootstrapApplication(AppComponent // Yaha AppComponent call ho raha hai
+```
 5. **Render Component Tree**: Component tree render hota hai.
 6. **Setup Event & Data Binding**: Event aur data binding setup hota hai.
 7. **Application Running**: Application chalne lagti hai.
