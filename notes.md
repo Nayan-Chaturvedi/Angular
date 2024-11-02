@@ -14,7 +14,7 @@
 - Quicker development is possible less dependent on 3rd party library(Eg- routing, Validation etc). ye by-default availabe rahti hai angular me.
 
 ---
-#ng 
+# ng 
 
 - ng in Angular ek prefix hai jo Angular-specific cheezon ko represent karta hai jaise Angular ke directives aur functionalities.
  Ye Angular framework ka short form bhi samjha ja sakta hai.
