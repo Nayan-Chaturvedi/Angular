@@ -108,9 +108,11 @@ export class StandaloneComponent {}
 
 # Angular Application Run Process
 
-1. **Load index.html**: Browser pehle `index.html` load karta hai.
+1. **Load index.html**: Sabse pehle browser index.html file ko load karta hai. Yeh file Angular scripts ko include karti hai aur <app-root> tag hota hai jahan Angular app inject hoti hai .
+Browser ko yeh pata chalna chahiye ki Angular application kahan inject honi hai.
 2. **Initialize Angular Framework**: Angular framework initialize hota hai.
-3. **Bootstrap AppModule**: Main module (AppModule) bootstrapped hota hai.
+Initialize Angular Framework ka matlab hai ki Angular framework ko setup aur start karna. Jab main.ts file run hoti hai, Angular ka core code load aur initialize hota hai.
+3. **Bootstrap AppModule**: Main module (AppModule) bootstrapped hota hai. Yeh Angular application ka entry point hota hai
 ```typescript
 main.ts
 bootstrapApplication(AppComponent, appConfig)
