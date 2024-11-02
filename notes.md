@@ -13,5 +13,25 @@
   - **Controller** - Logic ko handle karta hai aur Model aur View ke beech interaction manage karta hai.
 - Quicker development is possible less dependent on 3rd party library(Eg- routing, Validation etc). ye by-default availabe rahti hai angular me.
 
+---
+#ng 
 
+- ng in Angular ek prefix hai jo Angular-specific cheezon ko represent karta hai jaise Angular ke directives aur functionalities.
+ Ye Angular framework ka short form bhi samjha ja sakta hai.
 
+# Project Structure
+
+```javascript
+my-angular-project/
+├── node_modules/
+├── src/
+│   ├── app/
+│   │   ├── app.component.ts
+│   │   ├── app.module.ts
+│   ├── assets/
+│   ├── environments/
+│   │   ├── environment.ts
+│   │   ├── environment.prod.ts
+├── angular.json
+├── package.json
+```
