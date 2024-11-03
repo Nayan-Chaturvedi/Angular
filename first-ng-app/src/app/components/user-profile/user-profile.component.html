@@ -5,7 +5,17 @@
   {{ status }}
 </h4>
 
-<button [disabled]="isSituation">Click me</button>
+<!-- <button [disabled]="isSituation">Click me</button>
 
-<input type="text" (input)="onChange($event)" />
-<h1>{{ eve }}</h1>
+<div>
+  @for(user of names; track user.name) { @if(user.age>45) {
+  <h1>{{ user.name }} have {{ user.work }} and his age is {{ user.age }}</h1>
+  } @else {
+  <h1>{{ user.name }}</h1>
+  } }
+</div> -->
+
+<!-- Directive -->
+<div *ngFor="let user of names">
+  <h1>{{ user.name }} has {{ user.work }} and his age is {{ user.age }}</h1>
+</div>

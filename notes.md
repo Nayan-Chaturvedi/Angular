@@ -289,3 +289,41 @@ export class AppComponent {
 
 ## ng-template
 - Yeh template define karta hai jo sirf tab render hoga jab *ngIf condition false hogi.
+
+# Angular 17 Updates
+- Angular 17 me hum @For, @if, @else (control flow) etc laga sakte hai. ye similar hote hai directives ke per directive nahi hote hai.
+
+- directive hame element par lagana padta hai
+
+example
+```typescript
+ names = [
+    {
+      name: 'Nayan',
+      age: 24,
+      work: 'privateJob',
+    },
+    {
+      name: 'Aditya',
+      age: 65,
+      work: 'GovtJob',
+    },
+    {
+      name: 'Puja',
+      age: 54,
+      work: 'privateJob',
+    },
+  ];
+
+```
+
+```typescript
+<div>
+  @for(user of names; track user.name) { @if(user.age>45) {
+  <h1>{{ user.name }} have {{ user.work }} and his age is {{ user.age }}</h1>
+  } @else {
+  <h1>{{ user.name }}</h1>
+  } }
+</div> 
+```
+
