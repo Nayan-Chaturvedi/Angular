@@ -163,7 +163,7 @@ export class AppComponent {
 <h1>{{ title }}</h1>
 
 ```
-#Property Binding(Linking)/ One-way-binding
+# Property Binding(Linking)/ One-way-binding
 
 - Square brackets [ ] ka use karke HTML element ki property ko TypeScript variable se link karte hai.
 
@@ -182,10 +182,10 @@ export class AppComponent {
 
 # Event-Binding / One-way-binding
 
-## Matlab normal brackets ( ) ka use karke aap HTML element ke events ko TypeScript class ke methods se bind karte ho.
-## **Use Case:** Jab aapko user interaction (like button click) handle karni hoti hai.
+- Matlab normal brackets ( ) ka use karke aap HTML element ke events ko TypeScript class ke methods se bind karte ho.
+- **Use Case:** Jab aapko user interaction (like button click) handle karni hoti hai.
 
-#$event
+# $event
 - Yeh variable event-specific data hold karta hai.
 
 - **Use Case:** Jab aapko pata karna ho ki kis element pe event trigger hua ya koi aur event details access karni ho.
