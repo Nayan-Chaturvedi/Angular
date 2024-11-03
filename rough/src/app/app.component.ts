@@ -7,10 +7,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
   standalone: true,
   imports: [RouterOutlet, UserProfileComponent],
   templateUrl: './app.component.html',
-  template: `<h1>Nayan Kumar Chaturvedi</h1>`,
-
   styleUrl: './app.component.css',
 })
 export class AppComponent {
- 
+  title = 'rough';
 }

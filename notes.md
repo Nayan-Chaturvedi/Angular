@@ -141,6 +141,117 @@ bootstrapApplication(AppComponent // Yaha AppComponent call ho raha hai
 ### Render:
 **Render**: Matlab content ko browser mein display karna. Jab Angular component ko render karta hai, to uska HTML, CSS aur logic screen pe dikhata hai.
 
+---
 
+# Interpolation
 
+- **Interpolation:** Matlab double curly braces {{ }} ka use karke aap variables ko HTML mein inject karte ho.
 
+- **Use Case:** Jab aapko TypeScript class se data ko HTML mein dikhana hota hai.
+
+Example-
+```typescript
+component.html
+
+export class AppComponent {
+  title = 'My Angular App';
+}
+
+```
+
+```typescript
+<h1>{{ title }}</h1>
+
+```
+#Property Binding(Linking)/ One-way-binding
+
+- Square brackets [ ] ka use karke HTML element ki property ko TypeScript variable se link karte hai.
+
+example
+
+```typescript
+export class AppComponent {
+  imageUrl = 'https://example.com/image.jpg';
+}
+
+```
+```typescript
+<img [src]="imageUrl" alt="Example Image">
+
+```
+
+# Event-Binding / One-way-binding
+
+## Matlab normal brackets ( ) ka use karke aap HTML element ke events ko TypeScript class ke methods se bind karte ho.
+## **Use Case:** Jab aapko user interaction (like button click) handle karni hoti hai.
+
+#$event
+- Yeh variable event-specific data hold karta hai.
+
+- **Use Case:** Jab aapko pata karna ho ki kis element pe event trigger hua ya koi aur event details access karni ho.
+
+# Two way binding
+- Two-way binding se aap TypeScript class aur HTML template ke beech dono directions mein data synchronize kar sakte ho using [(ngModel)].
+- [(ngModel)] ko hum banana syntax bhi kahte hai.
+
+example-
+```typescript
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-user-profile',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.css'],
+})
+export class UserProfileComponent {
+  name = '';
+}
+
+```
+
+```typescript
+<input type="text" [(ngModel)]="name" placeholder="Enter your name">
+<p>Hello, {{ name }}!</p>
+
+```
+
+--- 
+#Directive
+- ye Angular me banni banayi class hai jishka use karke hum element ka behavior change kar sakte hai.
+- There are 3 types of directive
+**Component Directives:** Custom components created using @Component.
+**Structural Directives:** Change the DOM structure (*ngIf, *ngFor).
+**Attribute Directives:** Change the appearance or behavior of an element (ngClass, ngStyle).
+
+#Example nfFor and *ngIf
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  isVisible = true;
+
+  toggleVisibility() {
+    this.isVisible = !this.isVisible;
+  }
+}
+```
+
+```typescript
+<button (click)="toggleVisibility()">Toggle Visibility</button>
+<div *ngIf="isVisible">
+  <h2>Item List:</h2>
+  <ul>
+    <li *ngFor="let item of items">{{ item }}</li>
+  </ul>
+</div>
+
+```
