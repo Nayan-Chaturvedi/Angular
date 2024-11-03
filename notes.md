@@ -219,14 +219,14 @@ export class UserProfileComponent {
 ```
 
 --- 
-#Directive
+# Directive
 - ye Angular me banni banayi class hai jishka use karke hum element ka behavior change kar sakte hai.
 - There are 3 types of directive
 **Component Directives:** Custom components created using @Component.
 **Structural Directives:** Change the DOM structure (*ngIf, *ngFor).
 **Attribute Directives:** Change the appearance or behavior of an element (ngClass, ngStyle).
 
-#Example nfFor and *ngIf
+# Example nfFor and *ngIf
 ```typescript
 import { Component } from '@angular/core';
 
