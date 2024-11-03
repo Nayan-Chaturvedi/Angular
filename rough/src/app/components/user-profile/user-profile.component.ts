@@ -17,8 +17,20 @@ export class UserProfileComponent {
   }
 
   users = [
-    { name: 'Ramesh', isSingle: true, salary: 2000 },
-    { name: 'Suresh', isSingle: false, salary: 1000 },
-    { name: 'Ajay', isSingle: true, salary: 5000 },
+    {
+      Name: 'Nayan Kumar Chaturvedi',
+      salary: 20000,
+      isMarried: false,
+    },
+    {
+      Name: 'Abhay Pratap',
+      salary: 25000,
+      isMarried: true,
+    },
+    {
+      Name: 'Bikas Gupta',
+      salary: 1000,
+      isMarried: true,
+    },
   ];
 }

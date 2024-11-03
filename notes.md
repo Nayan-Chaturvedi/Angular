@@ -227,7 +227,7 @@ export class UserProfileComponent {
 - **Structural Directives:** Change the DOM structure (*ngIf, *ngFor).
 - **Attribute Directives:** Change the appearance or behavior of an element (ngClass, ngStyle).
 
-# Example nfFor and *ngIf
+# Example *nfFor and *ngIf
 ```typescript
 import { Component } from '@angular/core';
 
@@ -256,3 +256,36 @@ export class AppComponent {
 </div>
 
 ```
+
+*ngIf and else
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  isVisible = true;
+
+  toggleVisibility() {
+    this.isVisible = !this.isVisible;
+  }
+}
+```
+
+```typescript
+<button (click)="toggleVisibility()">Toggle Visibility</button>
+
+<div *ngIf="isVisible; else noContent">
+  <p>The content is visible.</p>
+</div>
+
+<ng-template #noContent>
+  <p>No content to display.</p>
+</ng-template>
+```
+
+## ng-template
+- Yeh template define karta hai jo sirf tab render hoga jab *ngIf condition false hogi.
