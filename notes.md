@@ -22,19 +22,19 @@
 ## What Does It Do?
 
 - **Install Packages**: If you need a library or tool for your project, you can download and install it using `npm`.
-- example
+### example
 ```typescript
 npm install package-name
 ```
 
 - **Update Packages**: Keeps your libraries up-to-date.
-- example
+### example
 ```typescript
 npm update package-name
 ```
 
 - **Remove Packages**: If you don't need a library anymore, you can easily remove it.
-- example
+### example
 ```typescript
 npm uninstall package-name
 ```
@@ -228,10 +228,24 @@ export class AppComponent {
 - Matlab normal brackets ( ) ka use karke aap HTML element ke events ko TypeScript class ke methods se bind karte ho.
 - **Use Case:** Jab aapko user interaction (like button click) handle karni hoti hai.
 
-# $event
+## $event
 - Yeh variable event-specific data hold karta hai.
 
 - **Use Case:** Jab aapko pata karna ho ki kis element pe event trigger hua ya koi aur event details access karni ho.
+
+### Example
+
+```typescript
+home.html
+<input type="text" (input)="onChange($event)" />
+```
+
+```typescript
+onChange(e: Event) {
+    const value = (e.target as HTMLInputElement).value;
+    console.log(value);
+  }
+```
 
 # Two way binding
 - Two-way binding se aap TypeScript class aur HTML template ke beech dono directions mein data synchronize kar sakte ho using [(ngModel)].
