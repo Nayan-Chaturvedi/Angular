@@ -469,6 +469,7 @@ function formatName(value: String) {
 export class HomeComponent {
   @Input({ alias: 'userName', transform: formatName }) name = '';		// Output- Hi Ramesh 		
 }
+```
 
 ### Example 2
 
