@@ -254,25 +254,38 @@ onChange(e: Event) {
 example-
 ```typescript
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Form module import is important to use ngModel
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-profile',
+  selector: 'app-home',
   standalone: true,
-  imports: [FormsModule],
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css'],
+  imports: [FormsModule], // Form module import in important while using ngModel
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
 })
-export class UserProfileComponent {
-  name = '';
+export class HomeComponent {
+  name = 'Nayan Kumar Chaturvedi';
+
+  // For 1st Approch onChange method require [(ngModel)] approch onChange method is not required 
+
+  onChange(e: Event) {
+    this.name = (e.target as HTMLInputElement).value;
+  }
 }
 
 ```
 
 ```typescript
-<input type="text" [(ngModel)]="name" placeholder="Enter your name">
-<p>Hello, {{ name }}!</p>
+<h1>{{ name }}</h1>
 
+<!-- 1st Approch  -->
+<!-- In below approch onChange method required in .ts file -->
+
+<input type="text" [value]="name" (input)="onChange($event)" />
+
+<!-- Optimize approch using ngModel -->
+
+<input type="text" [(ngModel)]="name" />
 ```
 
 ## ngModel
