@@ -1,1 +1,9 @@
-<app-home></app-home>
+<!-- <app-home userName="ramesh" status="false" salary="2400"></app-home> -->
+
+<app-home
+  *ngFor="let user of users"
+  [userName]="user.userName"
+  [status]="user.status"
+  [salary]="user.salary"
+>
+</app-home>

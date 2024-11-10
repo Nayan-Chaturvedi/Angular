@@ -410,3 +410,170 @@ example
 </div> 
 ```
 
+---
+
+# Parent to Child Communication 
+- Input directive - Angular mein @Input directive ka use hota hai parent component se child component ko data bhejne ke liye. 
+
+## Kaise Kaam Karta Hai?
+- Parent Component: Parent component data bhejta hai.
+- Child Component: Child component @Input decorator ka use karke data receive karta hai.
+
+```typescript
+app.html
+<app-home name="ramesh"></app-home>
+```
+
+```typescript
+child.ts
+
+export class HomeComponent {
+  @Input() name = '';
+}
+```
+
+```typescript
+child.html
+
+<h1>user-{{name}}</h1>
+```
+ 
+- Hum  name ki jaga userNae pass kare paents se an hum child.ts me name hi likha rahne de sakte hai using alias.
+- **alias:** Yeh property ko alag naam userName se access karne deta hai.
+```typescript
+app.html
+<app-home UserName="ramesh"></app-home>
+``` 
+
+```typescript
+@Input({ alias: 'userName' }) name = ''; // Yaha hum name ki jagah kuch bhi likh sakte hai bus alias me hame wahi likhna hoga jo parent me ho
+```
+
+## Tranform property in @Input
+- Angular mein @Input directive mein transform property ka use hota hai value ko modify karne ke liye jab wo parent component se child component ko pass hoti hai.
+- Value Assign hone se pahle transform ho jati hai.
+
+### Example1
+```typescript
+function formatName(value: String) {
+  return 'Hi ' + value;		
+}
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
+})
+export class HomeComponent {
+  @Input({ alias: 'userName', transform: formatName }) name = '';		// Output- Hi Ramesh 		
+}
+
+### Example 2
+
+```typescript
+child.ts
+
+function formatName(value: string) {
+  return 'Hi ' + value;
+}
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
+})
+export class HomeComponent {
+  @Input({ alias: 'userName', transform: formatName }) user = '';
+  @Input({ transform: booleanAttribute }) status!: boolean; //! symbol TypeScript ko assure karta hai ki property zaroor assign hogi.
+  @Input({transform:numberAttribute}) salary!:number;		// yaha booleanAttribute, numberAttribute already bane banaye transform hai
+}
+```
+
+```typescript
+child.html
+
+<h3>User is {{ user }} maritalStatus is {{ status }} salary is{{ salary }}</h3>
+```
+
+```typescript
+Parent.html
+<app-home userName="ramesh" status="false" salary="2400"></app-home>
+```
+
+### Example 3
+```typescript
+parent.ts
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, HomeComponent, CommonModule], // Import common module because we are use *ngFor in parent.Html
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+})
+export class AppComponent {
+  users = [
+    {
+      userName: 'ramesh',
+      status: 'false',
+      salary: 2400,
+    },
+    {
+      userName: 'Vikas',
+      status: 'true',
+      salary: 5800,
+    },
+    {
+      userName: 'Abhay',
+      status: 'false',
+      salary: 6500,
+    },
+  ];
+}
+```
+
+```typescript
+parent.html
+
+
+<app-home
+  *ngFor="let user of users"
+  [userName]="user.userName"
+  [status]="user.status"
+  [salary]="user.salary"
+>
+</app-home>
+```
+```typescript
+child.ts
+
+function formatName(value: string) {
+  return 'Hi ' + value;
+}
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
+})
+export class HomeComponent {
+  @Input({ alias: 'userName', transform: formatName }) user = '';
+  @Input({ transform: booleanAttribute }) status!: boolean; //! symbol TypeScript ko assure karta hai ki property zaroor assign hogi.
+  @Input({transform:numberAttribute}) salary!:number;
+}
+```
+
+```typescript
+child.html
+
+<h3>User is {{ user }} maritalStatus is {{ status }} salary is{{ salary }}</h3>
+
+```
+
+

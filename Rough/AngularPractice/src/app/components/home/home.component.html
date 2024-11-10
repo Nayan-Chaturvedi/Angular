@@ -1,12 +1,1 @@
-<div *ngFor="let user of users">
-  <h3 *ngIf="user.salary > 4500; else elseBlockCode">
-    {{ user.name }} single status {{ user.isStatus }} and salary is
-    {{ user.salary }}
-  </h3>
-  <ng-template #elseBlockCode>
-    <h6>
-      {{ user.name }} single status {{ user.isStatus }} and salary is
-      {{ user.salary }}
-    </h6>
-  </ng-template>
-</div>
+<h3>User is {{ user }} maritalStatus is {{ status }} salary is{{ salary }}</h3>
