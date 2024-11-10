@@ -254,7 +254,7 @@ onChange(e: Event) {
 example-
 ```typescript
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // Form module import is important to use ngModel
 
 @Component({
   selector: 'app-user-profile',
@@ -274,6 +274,13 @@ export class UserProfileComponent {
 <p>Hello, {{ name }}!</p>
 
 ```
+
+## ngModel
+- ngModel Angular ka ek directive hai
+- yeh input elements (jaise text boxes) ko aapke component ke variables ke saath jodta hai. 
+ Matlab, agar aap input box mein kuch likhte ho, toh wo value automatic component ke variable mein store ho jati hai aur agar component
+  variable change hota hai, toh input box mein bhi wo value update ho jati hai.
+- FormsModule: Zaroori hai ngModel use karne ke liye
 
 --- 
 # Directive

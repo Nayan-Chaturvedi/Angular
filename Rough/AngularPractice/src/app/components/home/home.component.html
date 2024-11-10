@@ -5,4 +5,8 @@
 
 <button [disabled]="buttonDisable">click me</button>
 
-<input type="text" (input)="onChange($event)" />
+<!-- <input type="text" (input)="onChange($event)" /> -->
+
+<br />
+
+<input type="text" [ngModel]="name" (input)="onChange($event)" />

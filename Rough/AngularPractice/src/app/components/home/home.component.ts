@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -13,9 +14,9 @@ export class HomeComponent {
   salary = 45000;
 
   buttonDisable = true;
+  value = 'Nayan Kumar Cahturvedi';
 
   onChange(e: Event) {
-    const value = (e.target as HTMLInputElement).value;
-    console.log(value);
+    this.name = (e.target as HTMLInputElement).value;
   }
 }
