@@ -1,10 +1,12 @@
-<h1>{{ name }}</h1>
-
-<!-- 1st Approch  -->
-<!-- In below approch onChange method required in .ts file -->
-
-<input type="text" [value]="name" (input)="onChange($event)" />
-
-<!-- Optimize approch using ngModel -->
-
-<input type="text" [(ngModel)]="name" />
+<div *ngFor="let user of users">
+  <h3 *ngIf="user.salary > 4500; else elseBlockCode">
+    {{ user.name }} single status {{ user.isStatus }} and salary is
+    {{ user.salary }}
+  </h3>
+  <ng-template #elseBlockCode>
+    <h6>
+      {{ user.name }} single status {{ user.isStatus }} and salary is
+      {{ user.salary }}
+    </h6>
+  </ng-template>
+</div>

@@ -304,64 +304,66 @@ export class HomeComponent {
 - **Structural Directives:** Change the DOM structure (*ngIf, *ngFor).
 - **Attribute Directives:** Change the appearance or behavior of an element (ngClass, ngStyle).
 
-# Example *nfFor and *ngIf
+# Example *nfFor 
 ```typescript
-import { Component } from '@angular/core';
+ .ts
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule], // jab bhi *ngFor and *nfIf use kar rahe hai tab CommonModule directive ko import karna hai
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
 })
-export class AppComponent {
-  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-  isVisible = true;
+export class HomeComponent {
+  name = 'Nayan Kumar Chaturvedi';
 
-  toggleVisibility() {
-    this.isVisible = !this.isVisible;
-  }
+  users = [
+    { name: 'Nayan', isStatus: false, salary: 4500 },
+    { name: 'Vikas', isStatus: true, salary: 5500 },
+    { name: 'Anmol', isStatus: true, salary: 6500 },
+    { name: 'Akash', isStatus: false, salary: 7500 },
+  ];
 }
 ```
 
 ```typescript
-<button (click)="toggleVisibility()">Toggle Visibility</button>
-<div *ngIf="isVisible">
-  <h2>Item List:</h2>
-  <ul>
-    <li *ngFor="let item of items">{{ item }}</li>
-  </ul>
+.html
+
+<div *ngFor="let user of users">
+  <h3>
+    {{ user.name }} single status {{ user.isStatus }} and salary is
+    {{ user.salary }}
+  </h3>
 </div>
 
 ```
 
-*ngIf and else
+*ngIf 
 ```typescript
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  isVisible = true;
-
-  toggleVisibility() {
-    this.isVisible = !this.isVisible;
+<div *ngFor="let user of users">
+  <h3 *ngIf="user.salary > 4500">
+    {{ user.name }} single status {{ user.isStatus }} and salary is
+    {{ user.salary }}
+  </h3>
+</div>
   }
 }
 ```
-
+ *ngIf and else
 ```typescript
-<button (click)="toggleVisibility()">Toggle Visibility</button>
-
-<div *ngIf="isVisible; else noContent">
-  <p>The content is visible.</p>
+<div *ngFor="let user of users">
+  <h3 *ngIf="user.salary > 4500; else elseBlockCode">
+    {{ user.name }} single status {{ user.isStatus }} and salary is
+    {{ user.salary }}
+  </h3>
+  <ng-template #elseBlockCode>
+    <h6>
+      {{ user.name }} single status {{ user.isStatus }} and salary is
+      {{ user.salary }}
+    </h6>
+  </ng-template>
 </div>
-
-<ng-template #noContent>
-  <p>No content to display.</p>
-</ng-template>
 ```
 
 ## ng-template
