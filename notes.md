@@ -14,6 +14,49 @@
 - Quicker development is possible less dependent on 3rd party library(Eg- routing, Validation etc). ye by-default availabe rahti hai angular me.
 
 ---
+# What is `npm`?
+
+- **npm** stands for **Node Package Manager**.
+- **Purpose**: It helps you manage packages (small pieces of code) or libraries that you can use in your projects.
+
+## What Does It Do?
+
+- **Install Packages**: If you need a library or tool for your project, you can download and install it using `npm`.
+- example
+```typescript
+npm install package-name
+```
+
+- **Update Packages**: Keeps your libraries up-to-date.
+- example
+```typescript
+npm update package-name
+```
+
+- **Remove Packages**: If you don't need a library anymore, you can easily remove it.
+- example
+```typescript
+npm uninstall package-name
+```
+
+# `npm install -g @angular/cli` Command:
+
+- **npm**: Node Package Manager ka short form hai.
+
+- **install**: Yeh npm ko batata hai ki specified package ko install karna hai.
+
+- **-g**: Iska matlab "global" hota hai. Yeh package ko globally install karta hai, taaki aap usse kisi bhi project mein use kar sakte hain bina alag se install kiye.
+
+- **@angular/cli**: Yeh Angular CLI (Command Line Interface) package ka naam hai. Yeh Angular applications create aur manage karne mein help karta hai.
+
+# Node.js Kya Hai?
+
+**Node.js** ek tool hai jo aapko JavaScript code ko web browser ke bahar, usually server par chalane ki suvidha deta hai.
+
+- Yeh ek aise magic bridge ki tarah hai jo JavaScript ko front-end (jo users dekhte hain) aur back-end (jo parde ke peeche kaam hota hai) dono par kaam karne deta hai. 😊
+
+
+
 # ng 
 
 - ng in Angular ek prefix hai jo Angular-specific cheezon ko represent karta hai jaise Angular ke directives aur functionalities.
