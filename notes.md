@@ -304,7 +304,7 @@ export class HomeComponent {
 - **Structural Directives:** Change the DOM structure (*ngIf, *ngFor).
 - **Attribute Directives:** Change the appearance or behavior of an element (ngClass, ngStyle).
 
-# Example *nfFor 
+# Example *ngFor 
 ```typescript
  .ts
 
@@ -341,6 +341,8 @@ export class HomeComponent {
 
 *ngIf 
 ```typescript
+.html
+
 <div *ngFor="let user of users">
   <h3 *ngIf="user.salary > 4500">
     {{ user.name }} single status {{ user.isStatus }} and salary is
@@ -352,6 +354,8 @@ export class HomeComponent {
 ```
  *ngIf and else
 ```typescript
+.html
+
 <div *ngFor="let user of users">
   <h3 *ngIf="user.salary > 4500; else elseBlockCode">
     {{ user.name }} single status {{ user.isStatus }} and salary is
