@@ -2,16 +2,19 @@
 
 - Angular is a framework for building UI.
 
-**Note:** Hum UI HTML CSS se bhi generate kar sakte hai per hum yaha Angular framework ishliye use kar rahe hai taki hamare effort reduce ho jaye.
+**Note:** Hum UI HTML CSS se bhi generate kar sakte hai per hum yaha Angular framework ishliye use kar rahe hai
+	 taki hamare effort reduce ho jaye.
 
 - You can create single web application.
 - We can create reusable components.
 - Angular MVC
-  - Angular MVC ka matlab hai Model-View-Controller pattern ko client side pe implement karna. Angular ek front-end framework hai jo is pattern ko follow karta hai.
+  - Angular MVC ka matlab hai Model-View-Controller pattern ko client side pe implement karna. Angular ek front-end 
+	framework hai jo is pattern ko follow karta hai.
   - **Model** - ye data ko hold karta hai/ Yaha hum blueprint rakte hai.
   - **View** - UI elements ko represent karta hai, jaise HTML aur Angular templates.
   - **Controller** - Logic ko handle karta hai aur Model aur View ke beech interaction manage karta hai.
-- Quicker development is possible less dependent on 3rd party library(Eg- routing, Validation etc). ye by-default availabe rahti hai angular me.
+- Quicker development is possible less dependent on 3rd party library(Eg- routing, Validation etc). ye by-default
+	 availabe rahti hai angular me.
 
 ---
 # What is `npm`?
@@ -45,15 +48,18 @@ npm uninstall package-name
 
 - **install**: Yeh npm ko batata hai ki specified package ko install karna hai.
 
-- **-g**: Iska matlab "global" hota hai. Yeh package ko globally install karta hai, taaki aap usse kisi bhi project mein use kar sakte hain bina alag se install kiye.
+- **-g**: Iska matlab "global" hota hai. Yeh package ko globally install karta hai, taaki aap usse kisi bhi project
+	 mein use kar sakte hain bina alag se install kiye.
 
-- **@angular/cli**: Yeh Angular CLI (Command Line Interface) package ka naam hai. Yeh Angular applications create aur manage karne mein help karta hai.
+- **@angular/cli**: Yeh Angular CLI (Command Line Interface) package ka naam hai. Yeh Angular applications create 
+	aur manage karne mein help karta hai.
 
 # Node.js Kya Hai?
 
 **Node.js** ek tool hai jo aapko JavaScript code ko web browser ke bahar, usually server par chalane ki suvidha deta hai.
 
-- Yeh ek aise magic bridge ki tarah hai jo JavaScript ko front-end (jo users dekhte hain) aur back-end (jo parde ke peeche kaam hota hai) dono par kaam karne deta hai. 😊
+- Yeh ek aise magic bridge ki tarah hai jo JavaScript ko front-end (jo users dekhte hain) aur back-end (jo parde ke
+	 peeche kaam hota hai) dono par kaam karne deta hai. 😊
 
 
 
@@ -80,7 +86,8 @@ my-angular-project/
 ```
 # Explain
 
-**node_modules**: Yeh folder saari dependencies aur packages ko contain karta hai jo Angular project ke liye required hain.
+**node_modules**: Yeh folder saari dependencies aur packages ko contain karta hai jo Angular project
+	 ke liye required hain.
 
 **src**: Yeh main folder hai jahan saari source code files hoti hain.
 
@@ -90,13 +97,17 @@ my-angular-project/
 
 **environments**: Yeh different environment configurations ko handle karta hai (jaise development aur production).
 
-**angular.json**: Yeh file project ka main configuration file hai, jisme build, serve, aur other Angular CLI commands ki settings hoti hain.
+**angular.json**: Yeh file project ka main configuration file hai, jisme build, serve, aur other Angular
+	 CLI commands ki settings hoti hain.
 
 **package.json**: Yeh file project ka dependency manager hai, jo saari required packages ko list karta hai.
 
-**tsconfig.json**: Yeh file TypeScript compiler ko configuration settings provide karta hai, jaise ki kaunsa TypeScript version use karna hai aur kaunsa code transpile(Ek language se doosri language mein code ko convert karna.) karna hai.
+**tsconfig.json**: Yeh file TypeScript compiler ko configuration settings provide karta hai, jaise ki kaunsa TypeScript
+	 version use karna hai aur kaunsa code transpile(Ek language se doosri language mein code ko convert karna.) karna hai.
 
-**package-lock.json**: package-lock.json file make sure karta hai ki har baar npm packages ke same versions use ho, taki project ki consistency aur integrity bani rahe. Yeh file exact versions of installed packages ko lock karta hai aur sub-packages ko bhi, taki aapka build process stable aur predictable rahe.
+**package-lock.json**: package-lock.json file make sure karta hai ki har baar npm packages ke same versions use ho, taki
+		 project ki consistency aur integrity bani rahe. Yeh file exact versions of installed packages
+ ko lock karta hai aur sub-packages ko bhi, taki aapka build process stable aur predictable rahe.
 
 ### In Short
 - **node_modules**: Dependencies
@@ -110,7 +121,8 @@ my-angular-project/
 - **package-lock.json**: Exact versions of installed packages
 
 # AOT(Ahead of Time) and JIT compiler
-- AOT compilation build time per hota hai means  Compiles code before execution and jit me compilation run time par hota hai means Compiles code during execution.
+- AOT compilation build time per hota hai means  Compiles code before execution and jit me compilation run time 
+	par hota hai means Compiles code during execution.
 ---
 
 # Component
@@ -151,10 +163,12 @@ export class StandaloneComponent {}
 
 # Angular Application Run Process
 
-1. **Load index.html**: Sabse pehle browser index.html file ko load karta hai. Yeh file Angular scripts ko include karti hai aur <app-root> tag hota hai jahan Angular app inject hoti hai .
+1. **Load index.html**: Sabse pehle browser index.html file ko load karta hai. Yeh file Angular scripts ko include karti hai
+	 aur app-root tag hota hai jahan Angular app inject hoti hai .
 Browser ko yeh pata chalna chahiye ki Angular application kahan inject honi hai.
 2. **Initialize Angular Framework**: Angular framework initialize hota hai.
-Initialize Angular Framework ka matlab hai ki Angular framework ko setup aur start karna. Jab main.ts file run hoti hai, Angular ka core code load aur initialize hota hai.
+Initialize Angular Framework ka matlab hai ki Angular framework ko setup aur start karna. Jab main.ts file run hoti hai,
+	 Angular ka core code load aur initialize hota hai.
 3. **Bootstrap AppModule**: Main module (AppModule) bootstrapped hota hai. Yeh Angular application ka entry point hota hai
 ```typescript
 main.ts
@@ -173,16 +187,20 @@ bootstrapApplication(AppComponent // Yaha AppComponent call ho raha hai
 ## Terminology
 
 ### Bootstrapped:
-**Bootstrapped**: Matlab jab Angular application start hoti hai, usse "bootstrapping" kehte hain. Yeh process application ke main module ko initialize karta hai.
+**Bootstrapped**: Matlab jab Angular application start hoti hai, usse "bootstrapping" kehte hain. Yeh process application ke 
+	main module ko initialize karta hai.
 
 ### AppModule:
-**AppModule**: Yeh Angular ka main module hota hai, jo sare components, services, aur other modules ko bundle karta hai. Is module ko bootstrap karna pehle step hota hai.
+**AppModule**: Yeh Angular ka main module hota hai, jo sare components, services, aur other modules ko bundle karta hai.
+	 Is module ko bootstrap karna pehle step hota hai.
 
 ### AppComponent:
-**AppComponent**: Yeh Angular application ka root component hota hai, jo application ka starting point hai. Yeh component saari other components ko contain karta hai.
+**AppComponent**: Yeh Angular application ka root component hota hai, jo application ka starting point hai. Yeh component
+	 saari other components ko contain karta hai.
 
 ### Render:
-**Render**: Matlab content ko browser mein display karna. Jab Angular component ko render karta hai, to uska HTML, CSS aur logic screen pe dikhata hai.
+**Render**: Matlab content ko browser mein display karna. Jab Angular component ko render karta hai, to uska HTML, CSS aur 
+	logic screen pe dikhata hai.
 
 ---
 
@@ -248,7 +266,8 @@ onChange(e: Event) {
 ```
 
 # Two way binding
-- Two-way binding se aap TypeScript class aur HTML template ke beech dono directions mein data synchronize kar sakte ho using [(ngModel)].
+- Two-way binding se aap TypeScript class aur HTML template ke beech dono directions mein data synchronize kar sakte
+	 ho using [(ngModel)].
 - [(ngModel)] ko hum banana syntax bhi kahte hai.
 
 example-
@@ -291,7 +310,8 @@ export class HomeComponent {
 ## ngModel
 - ngModel Angular ka ek directive hai
 - yeh input elements (jaise text boxes) ko aapke component ke variables ke saath jodta hai. 
- Matlab, agar aap input box mein kuch likhte ho, toh wo value automatic component ke variable mein store ho jati hai aur agar component
+ Matlab, agar aap input box mein kuch likhte ho, toh wo value automatic component ke variable mein 
+	store ho jati hai aur agar component
   variable change hota hai, toh input box mein bhi wo value update ho jati hai.
 - FormsModule: Zaroori hai ngModel use karne ke liye
 
@@ -374,7 +394,8 @@ export class HomeComponent {
 - Yeh template define karta hai jo sirf tab render hoga jab *ngIf condition false hogi.
 
 # Angular 17 Updates
-- Angular 17 me hum @For, @if, @else (control flow) etc laga sakte hai. ye similar hote hai directives ke per directive nahi hote hai.
+- Angular 17 me hum @For, @if, @else (control flow) etc laga sakte hai. ye similar hote hai directives
+	 ke per directive nahi hote hai.
 
 - directive hame element par lagana padta hai
 
@@ -413,7 +434,8 @@ example
 ---
 
 # Parent to Child Communication 
-- Input directive - Angular mein @Input directive ka use hota hai parent component se child component ko data bhejne ke liye. 
+- Input directive - Angular mein @Input directive ka use hota hai parent component se child component ko
+	 data bhejne ke liye. 
 
 ## Kaise Kaam Karta Hai?
 - Parent Component: Parent component data bhejta hai.
