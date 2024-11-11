@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { CommonModule } from '@angular/common';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-root',
@@ -11,21 +12,27 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  users = [
+  arr = [
     {
-      userName: 'ramesh',
-      status: 'false',
-      salary: 2400,
+      name: 'Vivek',
+      status: true,
+      salary: 400,
     },
     {
-      userName: 'Vikas',
-      status: 'true',
-      salary: 5800,
+      name: 'Rajesh',
+      status: false,
+      salary: 900,
     },
     {
-      userName: 'Abhay',
-      status: 'false',
-      salary: 6500,
+      name: 'Akash',
+      status: true,
+      salary: 100,
     },
   ];
+
+  reciveData(e: User) {
+    console.log(e);
+    const rajeshArrIndex = this.arr.findIndex((user) => user.name == e.name);
+    this.arr[rajeshArrIndex].salary = e.salary;
+  }
 }

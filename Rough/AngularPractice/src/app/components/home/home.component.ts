@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, Input, numberAttribute } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  EventEmitter,
+  Input,
+  numberAttribute,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-function formatName(value: string) {
-  return 'Hi ' + value;
-}
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +18,9 @@ function formatName(value: string) {
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  @Input({ alias: 'userName', transform: formatName }) user = '';
-  @Input({ transform: booleanAttribute }) status!: boolean; //! symbol TypeScript ko assure karta hai ki property zaroor assign hogi.
-  @Input({transform:numberAttribute}) salary!:number;
+  name = 'Rajesh';
+  @Output() myEvent = new EventEmitter<User>();
+  sendData() {
+    this.myEvent.emit({ name: this.name, salary: 24000 });
+  }
 }

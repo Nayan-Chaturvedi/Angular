@@ -1,9 +1,5 @@
-<!-- <app-home userName="ramesh" status="false" salary="2400"></app-home> -->
+<app-home (myEvent)="reciveData($event)"></app-home>
 
-<app-home
-  *ngFor="let user of users"
-  [userName]="user.userName"
-  [status]="user.status"
-  [salary]="user.salary"
->
-</app-home>
+<div *ngFor="let u of arr">
+  <h4>Name is {{u.name}} marital status is {{u.status}} and salary is {{u.salary}}</h4>
+</div>

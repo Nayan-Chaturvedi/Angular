@@ -576,5 +576,119 @@ child.html
 <h3>User is {{ user }} maritalStatus is {{ status }} salary is{{ salary }}</h3>
 
 ```
+# @Output
+- Use Parent to Child data pass
+- agar muje koi bhi data child se parent me pass karna hai to mujhe event ke form me karna hoga .
+- Value emit hogi child se and parent listen karega
+## Example 1
+```typescript
+child.ts
+ @Output() myEvent = new EventEmitter<string>();
+
+  sendData() {
+    this.myEvent.emit('Nayan Kumar Chaturvedi');
+  }
+```
+
+```typescript
+child.html
+<button (click)="sendData()"></button>
+```
+
+```typescript
+parent.html
+<app-home (myEvent)="reciveData($event)"></app-home> // Yaha myEvent child wala hai. hame child and parent ki yaha value same rakhni hai
+```
+
+```typescript
+reciveData(e: string) {
+    console.log(e);
+  }
+```
+
+## Example 2
+- Yaha hum emit karege ek object.
+- hame object banana hoga src-> models(we create)-user.ts(we create)
+
+```typescript
+user.ts
+
+export type User={name:string, salary:number}
+``` 
+
+```
+child.ts
+ name = 'Rajesh';
+  @Output() myEvent = new EventEmitter<User>();
+  sendData() {
+    this.myEvent.emit({ name: this.name, salary: 24000 });
+  }
+```
+
+```
+child.html
+<button (click)="sendData()">Send Data</button>
+
+```
+```typescript
+parent.html
+<app-home (myEvent)="reciveData($event)"></app-home>
+```
+
+```typescript
+parent.ts
+export class AppComponent {
+  reciveData(e: User) 		// Hum yaha User receive kar rahe hai. jo hamne model banaya tha 
+  {		
+    console.log(e);
+  }
+}
+```
+
+
+## Example 3
+- Let suppose hamare pass arr hai jishme kai name hai ushme se ek name rajesh hai. Hum us rajesh ki salary change karni hai.
+- tip= ishme child.html and child.ts same rahege chane hame parent.ts and parent.html me karna hoga
+
+```typescript
+<app-home (myEvent)="reciveData($event)"></app-home>
+
+<div *ngFor="let u of arr">
+  <h4>Name is {{u.name}} marital status is {{u.status}} and salary is {{u.salary}}</h4>
+</div>
+```
+```typescript
+export class AppComponent {
+  arr = [
+    {
+      name: 'Vivek',
+      status: true,
+      salary: 400,
+    },
+    {
+      name: 'Rajesh',
+      status: false,
+      salary: 900,
+    },
+    {
+      name: 'Akash',
+      status: true,
+      salary: 100,
+    },
+  ];
+
+  reciveData(e: User) {
+    console.log(e);
+    const rajeshArrIndex = this.arr.findIndex((user) => user.name == e.name);
+    this.arr[rajeshArrIndex].salary = e.salary;
+  }
+}
+```
+
+
+## findIndex
+- Yeh method array ke har element ko check karta hai jab tak condition fulfill nahi hoti.
+- element jo condition ko fulfill karta hai uska index return karta hai. Otherwise -1 return karta hai
+
 
 
