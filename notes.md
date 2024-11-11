@@ -450,7 +450,8 @@ app.html
 ```
 
 ## Tranform property in @Input
-- Angular mein @Input directive mein transform property ka use hota hai value ko modify karne ke liye jab wo parent component se child component ko pass hoti hai.
+- Angular mein @Input directive mein transform property ka use hota hai value 
+	ko modify karne ke liye jab wo parent component se child component ko pass hoti hai.
 - Value Assign hone se pahle transform ho jati hai.
 
 ### Example1
@@ -467,7 +468,7 @@ function formatName(value: String) {
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  @Input({ alias: 'userName', transform: formatName }) name = '';		// Output- Hi Ramesh 		
+  @Input({ alias: 'userName', transform: formatName }) name = '';	// Output- Hi Ramesh 		
 }
 ```
 
@@ -489,8 +490,11 @@ function formatName(value: string) {
 })
 export class HomeComponent {
   @Input({ alias: 'userName', transform: formatName }) user = '';
-  @Input({ transform: booleanAttribute }) status!: boolean; //! symbol TypeScript ko assure karta hai ki property zaroor assign hogi.
-  @Input({transform:numberAttribute}) salary!:number;		// yaha booleanAttribute, numberAttribute already bane banaye transform hai
+  @Input({ transform: booleanAttribute }) status!: boolean; 	//! symbol TypeScript ko assure
+								 karta hai ki property zaroor assign hogi.
+
+  @Input({transform:numberAttribute}) salary!:number;		// yaha booleanAttribute, numberAttribute 
+								already bane banaye transform hai
 }
 ```
 
@@ -512,7 +516,8 @@ parent.ts
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HomeComponent, CommonModule], // Import common module because we are use *ngFor in parent.Html
+  imports: [RouterOutlet, HomeComponent, CommonModule],     // Import common module because
+							     we are use *ngFor in parent.Html
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -565,7 +570,8 @@ function formatName(value: string) {
 })
 export class HomeComponent {
   @Input({ alias: 'userName', transform: formatName }) user = '';
-  @Input({ transform: booleanAttribute }) status!: boolean; //! symbol TypeScript ko assure karta hai ki property zaroor assign hogi.
+  @Input({ transform: booleanAttribute }) status!: boolean; 	//! symbol TypeScript ko assure 
+								 karta hai ki property zaroor assign hogi.
   @Input({transform:numberAttribute}) salary!:number;
 }
 ```
@@ -693,6 +699,89 @@ export class AppComponent {
 ## findIndex
 - Yeh method array ke har element ko check karta hai jab tak condition fulfill nahi hoti.
 - element jo condition ko fulfill karta hai uska index return karta hai. Otherwise -1 return karta hai
+
+# Pipes and Custom Pipes
+-  pipes ka use data ko transform karne ke liye hota hai.
+
+## Example
+- **Title Case Pipe:** Har shabd ka pehla letter uppercase mein convert karta hai.
+
+```typescript
+{{ 'angular is amazing' | titlecase }}  // Output - Angular Is Amazing
+```
+- **Currency Pipe:** Ek number ko currency format mein dikhata hai.
+
+```typescript
+{{ 1234.56 | currency }}	// output - $1234.56 Yaha by default $ liya gya hai 
+				 // agar hame INR me conververt karna hai to hum INR
+				// pass karege
+
+{{ 1234.56 | currency:'INR' }}	//Output- ₹1,234.56
+
+
+
+{{ 'hello world' | uppercase }}	// output- HELLO WORLD
+
+```
+
+## Custom pipes
+- **Task-**Hame ek pipe generate karna hai agar user number me INR daale to +91 prefix me lage and USD daale to +1.
+- **Transform Method in Pipe**-
+```typescript
+transform(value: unknown, ...args: unknown[]): unknown {
+  return null;
+}
+
+```
+### Explain
+- value: unknown: Yeh parameter wo value hoti hai jo pipe ko input milti hai.
+	 Yahaan unknown type use ki gayi hai, matlab yeh kisi bhi type ki value ho sakti hai.
+
+- ...args: unknown[]: Yeh rest parameter hai jo additional arguments ko represent karta hai.
+	 args ek array hai jo multiple values ko hold karta hai aur unka type unknown[] hai.
+
+1. Sabse pahle hame pipe generate karna hoga by using Command ng g p pipe-name
+```HTML
+D:\Angular_Tutorial\AngularProject\Rough\AngularPractice> ng g p pipes/countryCode
+```
+
+2. **Pipe Logic Define Karein:**Jo pipe generate hua usmein aapko transform method me logic 
+	define karna hoga jo data ko transform karega.
+
+Example-
+```typescript
+@Pipe({
+  name: 'countryCode',
+  standalone: true,
+})
+export class CountryCodePipe implements PipeTransform {
+  transform(value: number, country?: string): unknown {
+    let code = '91+';
+    if (country == 'USA') {
+      code = '+1';
+    }
+    return code + value;
+  }
+}
+
+```
+- **above explain**
+	- transform- Yeh method do parameters leta hai: value (jo ek number hai) aur optional country (jo ek string hai)
+	- Value- Yeh parameter wo number hai jisko transform karna hota hai. For example, agar aapke pass phone number hai
+		 1234567890, to yeh number value parameter mein pass hota hai.
+	- country- Yeh parameter ek string hai jo country code ko specify karta hai. Yeh optional hai, matlab agar aap nahi
+			 dete ho to bhi kaam karega. For example, agar aap 'USA' pass karte ho, to yeh country ko USA identify karega.
+3. Pipe ko Module mein Import Karein
+4. Pipe ko Template mein Use Karein
+```typescript
+<p>India ka Country Code: {{ 'India' | countryCode }}</p>
+<p>USA ka Country Code: {{ 'USA' | countryCode:"USA" }}</p>
+
+```
+
+
+
+
 
 
 

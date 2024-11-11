@@ -9,18 +9,22 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../models/user';
+import { CountryCodePipe } from '../../pipes/country-code.pipe';
+
+function addName(value: string) {
+  return 'Hi ' + value;
+}
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CountryCodePipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  name = 'Rajesh';
-  @Output() myEvent = new EventEmitter<User>();
-  sendData() {
-    this.myEvent.emit({ name: this.name, salary: 24000 });
-  }
+  @Input({ alias: 'name', transform: addName }) myNaming = '';
+  @Input({ transform: numberAttribute, alias: 'salary' }) mySalary!: number;
+
+  phonum = 903922;
 }
