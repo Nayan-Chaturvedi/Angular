@@ -803,6 +803,104 @@ export class CountryCodePipe implements PipeTransform {
 
 ```
 
+# Direcive  
+- Angular mein directive ek special type ka class hota hai jo DOM (Document Object Model) ke behavior ko modify kar sakta hai.
+## Custom-Directive
+- Angular mein custom directive banane ka matlab hai apna khud ka directive create karna jo aapko HTML elements ke behavior ko customize
+	 karne ki suvidha deta hai.
+
+- Example-
+	```typescript
+	.ts 
+		export class HomeComponent {
+  		bgColor = 'red';
+		}
+
+       ```
+	```typescript
+		<h1 [style.backgroundColor]="bgColor">Hello</h1>
+	```
+- Let suppose style.backgroundColor=bgColor property mujhhe multiple element me use karni hai. 
+- To ish issue ke liye hum ek directive create karege and directive ko hum attribute ki Tarah use kar sakte hai.
+
+**Steps to Create a Custom Directive**
+
+1. ng generate directive highlight // Generate directive
+
+2. Directive Logic Define Karein in highlight Directive
+
+```typescript
+	@Directive({	// Yeh decorator batata hai ki yeh class ek directive hai
+  selector: '[appHighlight]', // Jab aap selector ko [appHighlight] parentheses mein likhte hain, to yeh Angular 
+				ko batata hai ki yeh directive ek attribute directive hai
+  standalone: true,
+})
+export class HighlightDirective {
+  constructor() {} // Yeh constructor function hai, jo directive initialize hone par call hota hai. Currently, yeh empty hai.
+
+  @HostBinding('style.backgroundColor') bgColor = 'blue';
+}
+
+```
+3. Import selector in .ts file, jishki HTML file directive use karegi
+
+4. Use in HTML
+
+```typescript
+<h1 appHighlight>Nayan</h1>
+```
+
+## HostBinding & HostListner
+
+**HostBinding**- Use hota hai directive ya component ki property ko host element ki property ke saath bind karne ke liye.
+	- Host Element - Wo HTML element jisme directive ya component apply hota hai. Is example mein, <h1> element host element hai.
+
+**HostListner**-HostListner decorator ka use DOM events ko listen karne ke liye hota hai. Matlab, jab bhi specific event trigger hota
+		 hai, tab aapka method call hota hai.
+
+### Example 2
+```typescript
+highlight.Directive.ts
+  @HostListener('mouseenter')
+  changeFontsize() {
+    console.log('Mouse Enter');
+  }
+
+  @HostListener('mouseleave')
+  resetFontSize() {
+    console.log('Mouse leave');
+  } 
+```
+
+- in above program if I'm run when mouse above on h1 in console print Mouse Enter and remove cursor from h1 the mouse leave print in console.
+**note**- Ham Extend kar rahe hai example 1 ko to hame import statement and HTML me change nahi karna hai.
+
+### Example 3
+**task**- jab me mouse lekar jau h1 per tab h1 bada(size increse) ho jaye and mouse hatau tab original size me aa jaye.
+- Ish task ke liye pahle hame h1 element ko pakadna hai. hum constructor(jo directive me  hai) ke ander pakad sakte hai
+```typescript
+
+export class HighlightDirective {
+  public el: ElementRef;
+  constructor(el: ElementRef) {
+    this.el = el;		//this.el = el; se host element ka reference directive ke el property mein store kiya gaya hai.
+  }
+  @HostListener('mouseenter')
+  changeFontsize() {
+    console.log("Enter mouse")
+    this.el.nativeElement.style.fontSize = '50px';
+  }
+
+  @HostListener('mouseleave')
+  resetFontSize() {
+    console.log('Mouse leave');
+    this.el.nativeElement.style.fontSize = '30px';
+  }
+}
+
+```
+- ElementRef-Angular mein ElementRef ek service hai jo host element ka reference hold karti hai. Iska use karke aap DOM (Document Object Model)
+	 ke elements ko directly access aur manipulate kar sakte hain.
 
 
 
