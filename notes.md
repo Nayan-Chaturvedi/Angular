@@ -853,9 +853,9 @@ export class HighlightDirective {
 ## HostBinding & HostListner
 
 **HostBinding**- Use hota hai directive ya component ki property ko host element ki property ke saath bind karne ke liye.
-	- Host Element - Wo HTML element jisme directive ya component apply hota hai. Is example mein, <h1> element host element hai.
+	- Host Element - Wo HTML element jisme directive ya component apply hota hai. Is example mein, h1 element host element hai.
 
-**HostListner**-HostListner decorator ka use DOM events ko listen karne ke liye hota hai. Matlab, jab bhi specific event trigger hota
+**HostListner**- HostListner decorator ka use DOM events ko listen karne ke liye hota hai. Matlab, jab bhi specific event trigger hota
 		 hai, tab aapka method call hota hai.
 
 ### Example 2
@@ -873,7 +873,7 @@ highlight.Directive.ts
 ```
 
 - in above program if I'm run when mouse above on h1 in console print Mouse Enter and remove cursor from h1 the mouse leave print in console.
-**note**- Ham Extend kar rahe hai example 1 ko to hame import statement and HTML me change nahi karna hai.
+- **note**- Ham Extend kar rahe hai example 1 ko to hame import statement and HTML me change nahi karna hai.
 
 ### Example 3
 **task**- jab me mouse lekar jau h1 per tab h1 bada(size increse) ho jaye and mouse hatau tab original size me aa jaye.
