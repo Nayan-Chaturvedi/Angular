@@ -446,7 +446,8 @@ app.html
 ``` 
 
 ```typescript
-@Input({ alias: 'userName' }) name = ''; // Yaha hum name ki jagah kuch bhi likh sakte hai bus alias me hame wahi likhna hoga jo parent me ho
+@Input({ alias: 'userName' }) name = ''; // Yaha hum name ki jagah kuch bhi likh sakte hai bus 
+						alias me hame wahi likhna hoga jo parent me ho
 ```
 
 ## Tranform property in @Input
@@ -603,7 +604,8 @@ child.html
 
 ```typescript
 parent.html
-<app-home (myEvent)="reciveData($event)"></app-home> // Yaha myEvent child wala hai. hame child and parent ki yaha value same rakhni hai
+<app-home (myEvent)="reciveData($event)"></app-home> // Yaha myEvent child wala hai. 
+							hame child and parent ki yaha value same rakhni hai
 ```
 
 ```typescript
