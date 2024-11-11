@@ -749,7 +749,7 @@ export class AppComponent {
 ```
 
 ## Custom pipes
-- **Task-**Hame ek pipe generate karna hai agar user number me INR daale to +91 prefix me lage and USD daale to +1.
+- **Task** - Hame ek pipe generate karna hai agar user number me INR daale to +91 prefix me lage and USD daale to +1.
 - **Transform Method in Pipe**-
 ```typescript
 transform(value: unknown, ...args: unknown[]): unknown {
