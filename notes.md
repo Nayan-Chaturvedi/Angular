@@ -651,6 +651,8 @@ export class AppComponent {
 - tip= ishme child.html and child.ts same rahege chane hame parent.ts and parent.html me karna hoga
 
 ```typescript
+child.ts 
+
 <app-home (myEvent)="reciveData($event)"></app-home>
 
 <div *ngFor="let u of arr">
@@ -658,6 +660,8 @@ export class AppComponent {
 </div>
 ```
 ```typescript
+parent.ts
+
 export class AppComponent {
   arr = [
     {
