@@ -1113,11 +1113,225 @@ export class HomeComponent implements AfterViewInit {
 
 ```
 
+# Service
+- Jab bhi aapko remote server se koi data chaiye tab aap services use karte hai.
+- Example- Let suppose aap ek application bna rahe ho Jishme user ko login karna hai to login se related 
+	network calls ek alag service(let suppose auth-Service) me hogi . User Auth provide kar raha hai 
+	to ye call post-service me hogi
+- Hum components ke ander bhi API related code likh sakte hai, but ye good way nahi hai.
+- Services ishliye bane hai taki aap API related code alag se likh sake.
+
+## Exampe
+1. Create a component joke
+```typescript
+PS D:\Angular_Tutorial\AngularProject\Service\ServiceAngular\src\app> ng g c components/joke
+```
+
+2. Create a service jokes
+```typescript
+PS D:\Angular_Tutorial\AngularProject\Service\ServiceAngular> ng g s services/joke
+```
+3. Mention jokeComponents in App.ts and  also mention in app.html. 
+```typescript
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, JokeComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'ServiceAngular';
+}
+
+```
+
+```typescript
+app.html
+
+<app-joke></app-joke>
+
+```
+4. Ab hum jokes service me API call karege. Hum API call HTTP-client dependency ki help se karege..
+	Hame pta hai ki hum dependency inject constructor me karte hai.
+- Basically Service ek class hai .
+- **HttpClient:**  
+1. Angular mein HTTP requests bhejne aur handle karne ke liye use hoti hai.
+2. HTTP Methods: GET, POST, PUT, DELETE
+3. Yeh Reactive Extensions (RxJS) ka use karti hai jo Observables return karta hai.
+
+```typescript
+@Injectable({	
+  providedIn: 'root',
+})
+export class JokeService {
+  http: HttpClient;
+
+  constructor(http:HttpClient) { // Yeha hum dependency inject kar rahe hai
+    this.http=http;
+  }
+
+  getJoke() // In this function we call api
+  {
+    this.http.get()
+  }
+}
+```
 
 
+- **Explain**
+- @Injectable: @Injectable Angular ka ek decorator hai jo Angular ko batata hai ki yeh class ek service hai.
+- Iska use karke aap services ko different components mein inject kar sakte hain.
+- providedIn: providedIn property specify karti hai ki yeh service kis level par available hai.
+- providedIn: 'root' means yeh service application ke har component, directive, ya module mein accessible hai.
 
+- Another way -
 
+```typescript
+@Injectable({
+  providedIn: 'root',
+})
+export class JokeService {
+  // http: HttpClient;
 
+  // constructor(http:HttpClient) {
+  //   this.http=http;
+  // }
 
+   http=inject(HttpClient);
+  getJoke() // In this function we call api
+  {
+    this.http.get()
+  }
+}
+```
+
+- Hum ye tarika  use nahi karege ek class ke case me. Kyoki class ke pass constructor hota hai. To constructor wala 
+	Syntax hum use karege.
+- Par kuch jagah hame service access karni hai par wo class nahi hai wo function hai tb hum inject wala tarika use karege. 
+```typescript
+
+@Injectable({
+  providedIn: 'root',
+})
+export class JokeService {
+  http: HttpClient;
+
+  constructor(http: HttpClient) {
+    this.http = http;
+  }
+
+  getJoke() {
+    this.http		// Ye ek observable return karta hai
+      .get('https://api.chucknorris.io/jokes/random?category=animal') // ye api hamne google se li hai
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
+}
+```
+5. Ab hame getJoke() method ko component(joke.ts) me call karna hai.
+```typscript
+export class JokeComponent implements OnInit {
+  jService: JokeService;
+  constructor(
+    jService: JokeService // Service bhi ek dependecy
+  ) // hai use bhi hamne inject kiya hai
+  {
+    this.jService = jService;
+  }
+  ngOnInit(): void {
+    this.jService.getJoke();
+  }
+}
+```
+
+6. And hame last me app.config.ts me
+```typescrit
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideClientHydration(),
+    provideHttpClient(),// ye provide karna padega. This is mandatory
+  ],
+};
+```
+7. Ye value console me dikh rahi hai Ab hum Chahte hai ki value UI m sow karwana hai.
+
+```typescript
+joke.service
+
+@Injectable({
+  providedIn: 'root',
+})
+export class JokeService {
+  http: HttpClient;
+
+  constructor(http: HttpClient) {
+    this.http = http;
+  }
+
+  getJoke() { // Ye obserable return karege
+    return this.http.get(
+      'https://api.chucknorris.io/jokes/random?category=animal'
+    );
+  }
+}
+```
+
+```typescript
+joke.ts
+export class JokeComponent implements OnInit {
+  joke = 'loading';
+  jService: JokeService;
+  constructor(jService: JokeService) {
+    this.jService = jService;
+  }
+  ngOnInit(): void {
+    // Yaha hamne subscribe kar diya
+    this.jService.getJoke().subscribe((data: any) => {
+      this.joke = data.value;
+    });
+  }
+}
+```
+
+```typescript
+joke.html
+
+<h3>{{ joke }}</h3>
+```
+
+8. Hum chate hai ki ek button banau the ush button click me dusra joke aaye
+```typescript
+joke.ts
+
+export class JokeComponent implements OnInit {
+  joke = 'loading';
+  jService: JokeService;
+  constructor(jService: JokeService) {
+    this.jService = jService;
+  }
+  ngOnInit(): void {
+    this.getAnotherJoke();
+  }
+  getAnotherJoke() {
+    this.jService.getJoke().subscribe((data: any) => {
+      this.joke = data.value;
+    });
+  }
+}
+```
+
+```typescript
+joke.html
+
+<h3>{{ joke }}</h3>
+
+<button (click)="getAnotherJoke()">Get another joke</button>
+
+```
+ 
 
 
