@@ -769,7 +769,7 @@ transform(value: unknown, ...args: unknown[]): unknown {
 D:\Angular_Tutorial\AngularProject\Rough\AngularPractice> ng g p pipes/countryCode
 ```
 
-2. **Pipe Logic Define Karein:**Jo pipe generate hua usmein aapko transform method me logic 
+2. **Pipe Logic Define Karein:** Jo pipe generate hua usmein aapko transform method me logic 
 	define karna hoga jo data ko transform karega.
 
 Example-
