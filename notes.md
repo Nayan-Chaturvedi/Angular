@@ -1087,7 +1087,8 @@ child.ts
 export class HomeComponent implements AfterViewInit {
   @Input() name = '';
 
-@ViewChild("myHeading") heading?:ElementRef // Hamne heading variable me hold kiya hai myHeading ko. ElementRef type hai heading ka
+@ViewChild("myHeading") heading?:ElementRef // Hamne heading variable me hold kiya hai myHeading ko.
+						// ElementRef type hai heading ka
 ```
 
 - Heading ko me ngAfterViewInit life cycle method me access kar sakta hu
