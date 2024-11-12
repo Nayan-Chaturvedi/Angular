@@ -1071,8 +1071,46 @@ export class HomeComponent implements  OnChanges {
 
 - **note :** constructor, ngOnInit(), ngOnDestroy ye saare method ek bar run hote hai par ngOnChanges multiple times run hota hai.
 
+## ViewChild & ngAfterViewInit
+- Hame ki element ka refrence pakdna hai. jaishe hm JS m karte the document.getElementById. hum angular me kaise pakad sakte hai
+	element ka reference and ush .ts file me kaise hold kar sakte hai.
+- hum ishko templete variable ke jariye pakad sakte hai.
+- example
+```typescript
+child.html
+<h1 #myHeading>{{ name }}</h1>		// yaha myHeading template variable hai
+```
+- Hum viewChild decorator ki help se .ts file me hold kar sakte hai
+- example
+```typescript
+child.ts
+export class HomeComponent implements AfterViewInit {
+  @Input() name = '';
 
+@ViewChild("myHeading") heading?:ElementRef // Hamne heading variable me hold kiya hai myHeading ko. ElementRef type hai heading ka
+```
 
+- Heading ko me ngAfterViewInit life cycle method me access kar sakta hu
+- Example
+```typescript
+child.html
+<h1 #myHeading>{{ name }} is Hero</h1>
+```
+
+```typescript
+child.ts
+
+export class HomeComponent implements AfterViewInit {
+  @Input() name = '';
+
+  @ViewChild('myHeading') heading?: ElementRef;
+
+  ngAfterViewInit(): void {
+    console.log('After view Init', this.heading?.nativeElement.textContent);
+  }
+}
+
+```
 
 
 

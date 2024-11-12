@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   booleanAttribute,
   Component,
+  ElementRef,
   EventEmitter,
   input,
   Input,
@@ -12,6 +14,7 @@ import {
   output,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../models/user';
@@ -29,21 +32,12 @@ function addName(value: string) {
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit, OnDestroy, OnChanges {
+export class HomeComponent implements AfterViewInit {
   @Input() name = '';
 
-  constructor() {
-    console.log('Constructor call', this.name);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('Change detect');
-  }
+  @ViewChild('myHeading') heading?: ElementRef;
 
-  ngOnDestroy(): void {
-    console.log('On Destroy');
-  }
-
-  ngOnInit(): void {
-    console.log('ngOnInit call', this.name);
+  ngAfterViewInit(): void {
+    console.log('After view Init', this.heading?.nativeElement.textContent);
   }
 }
