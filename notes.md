@@ -1121,7 +1121,7 @@ export class HomeComponent implements AfterViewInit {
 - Hum components ke ander bhi API related code likh sakte hai, but ye good way nahi hai.
 - Services ishliye bane hai taki aap API related code alag se likh sake.
 
-## Exampe
+## Example
 1. Create a component joke
 ```typescript
 PS D:\Angular_Tutorial\AngularProject\Service\ServiceAngular\src\app> ng g c components/joke
