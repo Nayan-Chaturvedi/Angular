@@ -899,8 +899,183 @@ export class HighlightDirective {
 }
 
 ```
-- ElementRef-Angular mein ElementRef ek service hai jo host element ka reference hold karti hai. Iska use karke aap DOM (Document Object Model)
-	 ke elements ko directly access aur manipulate kar sakte hain.
+- ElementRef-Angular mein ElementRef ek service hai jo host element ka reference hold karti hai. Iska use 
+	karke aap DOM (Document Object Model) ke elements ko directly access aur manipulate kar sakte hain.
+
+# LifeCycle Methods/ Hooks
+- Hooks means life cycle ke method
+- Angular components ke lifecycle methods wo hooks hain jo specific points par call hote hain jab component create,
+	 update, ya destroy hota hai. 
+- In lifecycle methods ka use karke aap components ke behavior ko control kar sakte hain.
+
+## Explain Angular Constructor
+- ye wo method hai jo automatically call hota hai jab class ka instance create hota hai.
+- Instance means class ka object. Hum object create nahi karte hai Angular automatically instance create karta hai.
+- Yeh sirf ek hi bar call hota hai ja instance crete ho.
+
+```typescript
+export class User
+{
+	title:string
+	
+	// Work of constructor
+	constructor()
+	{
+		// Initilize property like title
+		// Dependency injection code
+		// Event Listner register
+	}
+}
+```
+## Explain ngOnInit()
+- ye method bhi ek bar call hota hai jab component ready ho jaye.
+- Component abhi UI per show nahi hua hai per component ready ho gya hai UI per show hone ke liye.
+
+```typescript
+export class User
+{
+	title:string
+	
+	// Work of constructor
+	ngOnInit()
+	{
+		// Initilize property like title
+		// Initial API call
+		// Event Listner register
+	}
+}
+```
+
+## Example-
+
+```typescript
+app.ts
+
+export class AppComponent {
+  myName="vikas";
+}
+```
+
+```typescript
+app.component.html
+<app-home [name]="myName"></app-home>
+```
+
+```typescript
+export class HomeComponent implements OnInit {
+  @Input() name = '';
+
+  constructor() {
+    console.log('Constructor call', this.name);		// Output- Constructor call (Input abhi ready nahi huye hai)
+  }
+
+  ngOnInit(): void {
+    console.log('ngOnInit call', this.name);		// Output- ngOninit call vikas (Input ready ho gaye hai tabhi 
+									Vikas show hua hai)
+  }
+}
+
+```
+
+## ngOnDestroy:
+
+- Jab component destroy hone wala hota hai, tab yeh method call hoti hai.
+
+- Yeh method cleanup aur unsubscribe ke liye use hoti hai.
+
+```typescript
+child.ts
+
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: `<p>{{ name }}</p>`
+})
+export class HomeComponent implements OnInit, OnDestroy {
+  @Input() name = '';
+
+  constructor() {
+    console.log('Constructor call', this.name);
+  }
+  
+  ngOnInit(): void {
+    console.log('ngOnInit call', this.name);
+  }
+
+  ngOnDestroy(): void {
+    console.log('On Destroy');
+  }
+}
+```
+
+```typescript
+parent.html
+
+<app-home *ngIf="myName" [name]="myName"></app-home>
+<button (click)="clear()">clear data</button>
+
+
+```
+```typescript
+parent.ts
+export class AppComponent {
+  myName = 'vikas';
+
+  clear() {
+    this.myName = '';
+  }
+}
+```
+
+### How its work
+- Jab clear button click hota hai aur myName empty string ('') set hota hai, to *ngIf="myName" condition 
+	false ho jati hai.
+- Is wajah se Angular HomeComponent ko DOM se hata deta hai aur ngOnDestroy method call hota hai jo console
+	 mein "On Destroy" print karta hai.
+
+## ngOnChanges
+- Ye method tab run hota hai jab Jab component ke input properties change hoti hain, tab yeh hook call hota hai.
+
+### Example-
+```typescript
+parent.ts
+export class AppComponent {
+  myName = 'vikas';
+
+  change() {
+    this.myName = 'Akash';
+  }
+}
+```
+
+```typescript
+parent.html
+<app-home *ngIf="myName" [name]="myName"></app-home>
+<button (click)="change()">clear data</button>
+```
+
+```typescript
+child.ts
+export class HomeComponent implements  OnChanges {
+  @Input() name = '';
+
+  constructor() {
+    console.log('Constructor call', this.name);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('Change detect');
+  }
+}
+```
+
+- **note :** constructor, ngOnInit(), ngOnDestroy ye saare method ek bar run hote hai par ngOnChanges multiple times run hota hai.
+
+
+
+
+
+
 
 
 

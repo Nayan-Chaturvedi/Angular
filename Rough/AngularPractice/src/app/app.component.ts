@@ -13,5 +13,8 @@ import { User } from '../models/user';
 })
 export class AppComponent {
   myName = 'vikas';
-  MySalary= '4200';
+
+  change() {
+    this.myName = 'Akash';
+  }
 }

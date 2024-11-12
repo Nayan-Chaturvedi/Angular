@@ -3,9 +3,15 @@ import {
   booleanAttribute,
   Component,
   EventEmitter,
+  input,
   Input,
   numberAttribute,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  output,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../models/user';
@@ -23,11 +29,21 @@ function addName(value: string) {
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-  bgColor = 'red';
+export class HomeComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() name = '';
 
-  @Input({ alias: 'name', transform: addName }) myNaming = '';
-  @Input({ transform: numberAttribute, alias: 'salary' }) mySalary!: number;
+  constructor() {
+    console.log('Constructor call', this.name);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('Change detect');
+  }
 
-  phonum = 903922;
+  ngOnDestroy(): void {
+    console.log('On Destroy');
+  }
+
+  ngOnInit(): void {
+    console.log('ngOnInit call', this.name);
+  }
 }

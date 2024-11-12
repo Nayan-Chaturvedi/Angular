@@ -1,1 +1,2 @@
-<app-home [name]="myName" [salary]="MySalary"></app-home>
+<app-home *ngIf="myName" [name]="myName"></app-home>
+<button (click)="change()">clear data</button>
