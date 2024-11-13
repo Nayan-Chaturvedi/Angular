@@ -1332,6 +1332,229 @@ joke.html
 <button (click)="getAnotherJoke()">Get another joke</button>
 
 ```
+
+# Global state management using services
+- Global state management using services in Angular ka matlab hai ki aap ek central service banate ho jo poore app
+	 ke liye data manage karti hai.
+- Iska fayda yeh hota hai ki har component easily  data ko access aur update kar sakta hai.
+
+1. Firstly, Create 2 Components and 1 Service
+```typescript
+ng g c components/A
+ng g c components/B1
+ng g s services/counterService
+
+```
+
+2. app. component.ts and app.html me hum import karege A, B1 Components ko
+```typescript
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, JokeComponent, AComponent, B1Component], // import
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+})
+export class AppComponent {
+  title = 'ServiceAngular';
+}
+
+```
+
+```typescript
+app.html
+
+<app-a></app-a>
+ <app-b1></app-b1>
+
+
+```
+
+3. In counter.Service
+```typescript
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CounterService {
+  private count = 0;
+
+  getCount() {	// Get value of count
+    return this.count;
+  }
+
+  incrementCount() { // set value of count
+    return this.count++;
+  }
+}
+
+
+```
+
+4.  In A components and A.html
+```typescript
+@Component({
+  selector: 'app-a',
+  standalone: true,
+  imports: [],
+  templateUrl: './a.component.html',
+  styleUrl: './a.component.css',
+})
+export class AComponent {
+  constructor(private counterService: CounterService) {}
+
+  getData() {
+    return this.counterService.getCount();
+  }
+
+  incre() {
+    this.counterService.incrementCount();
+  }
+}
+
+```
+
+```typescript
+<h2>Count A : {{ getData() }}</h2>
+<button (click)="incre()">Increment</button>
+
+
+```
+
+- Another way to write A component and A.html
+```typescript
+
+export class AComponent {
  
+  constructor(public counterService:CounterService) // Provide public specifier
+  {
+    
+  }
+}
+```
+
+```typescript
+<h2>Count A : {{ counterService.getCount() }}</h2> 
+<button (click)="counterService.incrementCount()">Increment</button> 
+
+// Public specifier hai to hum directly getCount() or incrementCount ko access kar sakte hai 
+```
+- Hum dekege UI me Button click se count increase hoga. 
+5. In B components and B.html 
+
+```typescript
+import { Component } from '@angular/core';
+import { CounterService } from '../../service/counter.service';
+
+@Component({
+  selector: 'app-b1',
+  standalone: true,
+  imports: [],
+  templateUrl: './b1.component.html',
+  styleUrl: './b1.component.css',
+})
+export class B1Component {
+  constructor(private counterService: CounterService) {}
+
+  getData() {
+    return this.counterService.getCount();
+  }
+
+  incre() {
+    this.counterService.incrementCount();
+  }
+}
+
+```
+
+```typescript
+<h2>Count B : {{ getData() }}</h2>
+<button (click)="incre()">Increment</button>
+```
+
+7. Abb hum dekege hi kisi ka bhi increment button (A ya B) ka click karege to dusra wala count automatically increase hoga.
+- Yaha A and B components Service ka same instance share kar rahe hai
+- Hum chahte hai ki A and B service ka same instance share na kare to hum providers me service name daalege
+```typescript
+@Component({
+  selector: 'app-b1',
+  standalone: true,
+  imports: [],
+  providers: [CounterService], // Provider and Service name
+  templateUrl: './b1.component.html',
+  styleUrl: './b1.component.css',
+})
+export class B1Component {
+  constructor(private counterService: CounterService) {}
+
+  getData() {
+    return this.counterService.getCount();
+  }
+
+  incre() {
+    this.counterService.incrementCount();
+  }
+}
+```
+
+- **Task :** Hum chahte hai ki Component B1 and B2 and service instace share kare 
+- Create B components
+```typescript
+ng g c components/B1
+```
+
+```typescript
+b2.ts
+
+export class B2Component
+{
+  constructor(public counterService:CounterService){}
+}
+
+```
+
+```typescript
+b2.html
+
+<h3>Count B3 : {{ counterService.getCount() }}</h3>
+<button (click)="counterService.incrementCount()">Increment</button>
+
+
+```
+- Hum B2 component ko B1 me import karaege
+```typescript
+b1. ts
+
+@Component({
+  selector: 'app-b1',
+  standalone: true,
+  imports: [B2Component],		// Import B2
+  providers: [CounterService],
+  templateUrl: './b1.component.html',
+  styleUrl: './b1.component.css',
+})
+export class B1Component {
+  constructor(private counterService: CounterService) {}
+
+  getData() {
+    return this.counterService.getCount();
+  }
+
+  incre() {
+    this.counterService.incrementCount();
+  }
+}
+```
+
+```typescript
+b1.html
+
+<h2>Count B : {{ getData() }}</h2>
+<button (click)="incre()">Increment</button>
+
+<app-b2></app-b2> // Import in B1 component
+
+```
 
 
