@@ -1557,4 +1557,147 @@ b1.html
 
 ```
 
+# Signal
+- yeh Angular mein ek tarah ke state management ka tariqa hai jo components ke beech data flow ko handle karta hai.
+- State management ka matlab hai aapke application ke data aur state ko samajhdari se manage karna. Taaki har part
+  ya component ko sahi data mile aur app smoothly chale.
+- In Easy way
+	- Signal in Angular ek tarah ka special variable hai jo value store karta hai aur jab bhi wo value change 
+	hoti hai, to aapko automatically notify karta hai.
 
+## Types of Signals:
+
+### Writable Signal:
+- Yeh signal update kiya ja sakta hai using methods like .set or .update.
+- Writable Signals ko update kar sakte hain using .set or .update.
+### Computed Signal:
+- Yeh signal readonly hota hai aur yeh kisi aur signal ke value pe dependent hota hai.
+- Inhe hum update nahi kar sakte hai kyoki ye dusre signal per dependent hote hai
+
+```typescript
+count = signal(0); // Initial value 0 hai
+
+// Update the value
+count.set(5); // ab count ki value 5 ho jayegi
+
+// Further update with previous value
+count.update((oldValue) => oldValue + 1); // ab count ki value 6 ho jayegi
+
+```
+
+## Example
+### Writeable signal
+
+```typescript
+import { computed, effect, Injectable, Signal, signal } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CounterService {
+  count = signal(0);
+
+  getCount() {
+    return this.count();
+    // Agar mujhe signal ki value get karni hai to count() paranthis lagane padega
+    // count ke baad
+  }
+
+  incrementCount() {
+    // this.count.set(5);
+    // Value directly 5 set ho gai
+
+    // Hum chahte hai ki value ek ek karke increase ho tab update() ka use karege
+    // Based on previous value
+    this.count.update((oldValue) => oldValue + 1);
+  }
+}
+```
+
+```typescript
+whose Component jo above service use kar raha hai. Yaha hamne A component le liye
+a.html
+
+<h2>Count A: {{ counterService.getCount() }}</h2>
+
+<button (click)="counterService.incrementCount()">Increment</button>
+```
+
+### Readable signal
+```typescript
+import { computed, effect, Injectable, Signal, signal } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CounterService {
+  count = signal(0);
+
+  dooubleCount: Signal<number> = computed(() => this.count() * 2); 
+  // Computed signal readonly hote hai hai.
+
+
+  getCount() {
+    return this.count();
+    // Agar mujhe signal ki value get karni hai to count() paranthis lagane padega
+    // count ke baad
+  }
+
+  incrementCount() {
+    // this.count.set(5);
+    // Value directly 5 set ho gai
+
+    // Hum chahte hai ki value ek ek karke increase ho tab update() ka use karege
+    // Based on previous value
+    this.count.update((oldValue) => oldValue + 1);
+  }
+}
+
+```
+
+```typescript
+a.html
+
+<h2>Count A: {{ counterService.getCount() }}</h2>
+<h2>Double Count A : {{ counterService.doubleCount() }}</h2>
+<button (click)="counterService.incrementCount()">Increment</button>
+
+```
+## Effects:
+- Effects ko debugging ke liye use karte hain, jo signal value change hone par execute hoti hai.
+```typescript
+@Injectable({
+  providedIn: 'root',
+})
+export class CounterService {
+  count = signal(0);
+
+  constructor() {
+    effect(() => {
+      // Yeh function tab chalega jab signal ki value change hogi.
+      console.log('count ', this.count(), " double Count ", this.dooubleCount());
+    });
+  }
+
+
+  dooubleCount: Signal<number> = computed(() => this.count() * 2); 
+  // Computed signal readonly hote hai hai.
+
+
+  getCount() {
+    return this.count();
+    // Agar mujhe signal ki value get karni hai to count() paranthis lagane padega
+    // count ke baad
+  }
+
+  incrementCount() {
+    // this.count.set(5);
+    // Value directly 5 set ho gai
+
+    // Hum chahte hai ki value ek ek karke increase ho tab update() ka use karege
+    // Based on previous value
+    this.count.update((oldValue) => oldValue + 1);
+  }
+}
+
+```
