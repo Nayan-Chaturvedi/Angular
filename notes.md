@@ -1701,3 +1701,115 @@ export class CounterService {
 }
 
 ```
+---
+#Project
+---
+# Routing
+- Routing ka matlab hai ki aapke application ke andar different pages ya views ko navigate karna.
+ Jaise aap web browser mein different URLs pe jaate hain, waise hi Angular app mein routing se aap pages
+ change kar sakte ho bina page reload kiye.
+
+## Router Outlet
+Router Outlet Angular mein ek placeholder ya container hai jahan pe different components dynamically 
+load hote hain based on the current route. Simple terms mein, router outlet woh jagah hai jahan aapka 
+dynamic content display hota hai jab aap app mein navigate karte ho.
+
+## How to add Routing in Our Project
+1. ```typescript
+
+export const appConfig: ApplicationConfig = {
+  providers: [ provideRouter(routes)]		// App.config.ts me ye line honi chaiye
+};
+
+```
+- providers: [ provideRouter(routes)]: Yeh providers array ke through Angular ko batata hai ki kaunsa 
+	routing configuration use karna hai.
+2. Mujhe apne routes app.routes.ts me batana hai
+```typescript
+export const routes: Routes = [];
+```
+3. Routes define karne ke liye pahle me component banana padega
+```typescript
+ng g c login
+ng g c signUp
+```
+4. Routes define kare
+```typescript
+export const routes: Routes = [
+    {path:'login', component: LoginComponent},
+    {path:'sign-up', component: SignUpComponent}
+];
+```
+5. Ab hame router outlet use karna hai. Ushke liye router module ki jarurat padegi
+```typescript
+app.components.ts
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],		// Router Module 
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'Project';
+}
+```
+6. Ab hum app.components.html me
+```typescript
+<router-outlet></router-outlet>
+```
+- Ab aap localhost 4200 per jakar dekh sakte hai aapko routing mil jaegi
+```typescript
+http://localhost:4200/sign-up   // Sign-up Work
+http://localhost:4200//login	// Login Work
+```
+
+- Hum chahte hai ki manually button show kare SignUp and login ka. Jab lofin kare to login page per navigate kare and vice-versa
+- Ushke liye hum ek navbar component create karege
+```typescript
+ng g c navbar
+```
+- Ab hum navbar.html me ek view create karege
+```typescript
+<div>
+  <nav>
+    <!-- Home Page per navigate karege -->
+    <h2><a routerLink="/">CodeBin</a></h2>
+    <ul>
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/sign-up" routerLinkActive="active">sign-up</a></li>
+    </ul>
+  </nav>
+  <!-- hr tag means line -->
+  <hr />
+</div>
+
+<!-- Link Banane ke liye hame router link ka use karna hoga -->
+
+```
+
+```typescript
+navbar.ts
+
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],  // import both module
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css'
+})
+export class NavbarComponent {
+
+}
+
+- RouterLink: URL navigate karne ke liye.
+- RouterLinkActive: Active route indication ke liye. Jo page open hoga wo URL active hai
+
+```
+- in app.html
+```typescript
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+
+```
