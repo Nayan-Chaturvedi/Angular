@@ -1715,7 +1715,9 @@ load hote hain based on the current route. Simple terms mein, router outlet woh 
 dynamic content display hota hai jab aap app mein navigate karte ho.
 
 ## How to add Routing in Our Project
-1. ```typescript
+1. 
+
+```typescript
 
 export const appConfig: ApplicationConfig = {
   providers: [ provideRouter(routes)]		// App.config.ts me ye line honi chaiye
