@@ -2197,5 +2197,6 @@ export const routes: Routes = [
 ];
 
 ```
+- CSS ChatGpt se generate karlo
 
 

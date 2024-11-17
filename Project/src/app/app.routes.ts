@@ -19,6 +19,6 @@ export const routes: Routes = [
   },
 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent }, //Called WildCard
+  { path: '**', component: NotFoundComponent }, 
 
 ];
