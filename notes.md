@@ -1815,3 +1815,302 @@ export class NavbarComponent {
 <router-outlet></router-outlet>
 
 ```
+
+7. Jab ap applicatin run (ng s) se karoge and koi bhi link(sign-up/login) per click karoge and inspect me jakar element
+	open karoge and dekhoge ki agar sign-up link per click kiya hai to sign-up class active ho jaegi (inspect me element me jakar
+	code me deko) and vice-versa.
+
+8. CSS ChatGpt se likhvalo 
+9. Jo class Active hogi (login/ sign-up) ushka font-weight bold karna hai 
+```typescript
+ ul li a.active{
+    font-weight: 700;
+  }
+```
+
+10. Ab hum Login and sign-up page banaege
+
+# Reactive form
+- Reactive form me most of the code .ts file me likhte ho.
+- Reactive form ka use karne ke liye ReactiveFormsModule ko import karte hai
+
+## FormGroup aur FormControl
+- FormGroup - Yeh ek group hota hai jo multiple form fields (controls) ko manage karta hai.
+- FormControl - Yeh ek individual form field ko represent karta hai, jaise text input, checkbox, etc.
+
+## What's form ?
+- Form ek interface hai jo user se input gather karne ke liye use hota hai.
+- Forms aapko data collect karne ka tareeka dete hain, jaise ki text input, checkboxes, radio buttons, etc.
+- Yeh data aapke app ke backend ko bhejne mein madad karte hain taaki wo us data ko process aur store kar sake.
+
+```typescript
+login.ts
+
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms'; // Module import karna hai
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [ReactiveFormsModule], // import ReactiveFormsModule
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
+})
+export class LoginComponent {
+  email = new FormControl('', [
+    // Initial value empty hai
+    Validators.required,
+    Validators.email,
+  ]);
+
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
+
+  // ab hame email and passsword ko group karna hai
+
+  loginForm = new FormGroup({
+    email: this.email,
+    password: this.password,
+  });
+
+  login() {
+    // Ish function ko hum button click par call karege
+    console.log(this.loginForm.value);
+  }
+  reset() {
+    this.loginForm.reset();
+  }
+  // Reset function se hum formGroup ko reset kar sakte hai
+}
+
+
+```  
+
+```typescript
+login.html
+
+<form class="container" [formGroup]="loginForm">
+  <h4>Please Login</h4>
+  <input type="email" placeholder="Enter an Email" [formControl]="email" />
+  <h5 class="red-text" [hidden]="loginForm.controls.email.valid || loginForm.controls.email.untouched"> Enter correct Email</h5>
+  <!-- agar email valid nahi hoga tab  Enter correct Email dekhe-->
+  <input type="password" placeholder="Enter an Password" [formControl]="password"/>
+  <h5 class="red-text" [hidden]="loginForm.controls.password.valid || loginForm.controls.password.untouched">password musy be required length</h5>
+
+  <button class="btn-green" (click)="login()" [disabled]="loginForm.invalid">Login</button> 
+	// agar login form invalid hoga tab login button dsabled ho jaega
+  <button class="btn-red" (click)="reset()">Reset</button>
+</form>
+
+<h6>emaik vallid {{ email.valid }}</h6>
+<h6>touched {{ email.untouched }}</h6>
+
+<!-- <h5>Email Valid -{{ email.valid }}</h5>  -->
+
+<!--  Starting me Email Valid - False hai kyoki abhi tak mene email nahi dala hai
+  Jab me email daal duga tab true ho jaege -->
+
+<!-- <h5>Email Untouched - {{ email.untouched }}</h5> -->
+
+<!-- Starting me email untouched - true hoga kyoki abhi tab mene email ko touch means
+  email me kuch email id daali nahi hai . jab ek baar email id daal duga tab mene email
+   ko touch kar liya and abb email untouch false ho gya-->
+
+
+```
+- CSS Chatgpt se copy paste kar lo
+- Similar hum sign-up page banaege
+```typescript
+sign-up.ts
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-sign-up',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.css',
+})
+export class SignUpComponent {
+  constructor(private router: Router) {} 
+// agar use sign-up karta hai and sign-up button click karta hai
+// to user navigate hoga login page per
+
+  email = new FormControl('', [
+    // Initial value empty hai
+    Validators.required,
+    Validators.email,
+  ]);
+
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
+
+  // ab hame email and passsword ko group karna hai
+
+  registerForm = new FormGroup({
+    email: this.email,
+    password: this.password,
+  });
+
+  signUp() {
+    // Ish function ko hum button click par call karege
+    console.log(this.registerForm.value);
+    this.router.navigate(['/login']);
+// User navigate to /login page
+  }
+  reset() {
+    this.registerForm.reset();
+  }
+}
+
+
+```
+
+- Hum app.routes.ts me 2 routes banaege
+1. Agar user localhost:4200 per jaye to ushe  login page me redirect kar de
+```typescript
+{ path: '', redirectTo: '/login', pathMatch: 'full' },
+```
+
+2. Hamare paas abhi 2 routes hai
+```typscript 
+ localhost:4200/login
+ localhost:4200/sgn-up
+```
+- Agar user kuch 3 routes k access kane ki kosis kar to use message mile not-found.
+- ishke liye pahle mujhje not-found component banana hoga
+```typescript
+PS D:\Angular_Tutorial\AngularProject\Project> ng g c components/not-found 
+```
+-  And aab hum ek naya route add karege
+```typescript
+{ path: '**', component: NotFoundComponent }, //Called WildCard
+```
+
+
+
+```typescript
+sign-up.html
+
+<form class="container" [formGroup]="registerForm">
+  <h4>Please SignUp</h4>
+  <input type="email" placeholder="Enter an Email" formControlName="email" />
+  <h5
+    class="red-text"
+    [hidden]="
+      registerForm.controls.email.valid || registerForm.controls.email.untouched
+    "
+  >
+    Enter correct Email
+  </h5>
+  <input
+    type="password"
+    placeholder="Enter a Password"
+    formControlName="password"
+  />
+  <h5
+    class="red-text"
+    [hidden]="
+      registerForm.controls.password.valid ||
+      registerForm.controls.password.untouched
+    "
+  >
+    Password must be of required length
+  </h5>
+
+  <button class="btn-green" [disabled]="registerForm.invalid" (click)="signUp()">
+    signUp
+  </button>
+  <button class="btn-red" (click)="reset()">Reset</button>
+</form>
+
+
+```
+ ## Lazy Loading
+- Lazy loading Angular mein ek design pattern hai jo application ki performance aur loading time improve karta hai
+ by loading  components only when they are needed. Matlab, poore app ko ek saath load karne ke bajaye, 
+	sirf wo modules load hote hain jo zarurat ke waqt chahiye hote hain.
+## Example 
+- Create an components
+```typescript
+ D:\Angular_Tutorial\AngularProject\Project> ng g c components/about
+``` 
+
+- Show in HTML
+```typescript
+navbar.html
+<div>
+  <nav>
+    <h2><a routerLink="/">CodeBin</a></h2>
+    <ul>
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/sign-up" routerLinkActive="active">sign-up</a></li>
+      <li>
+        <a routerLink="/about-component" routerLinkActive="active">About</a> // add
+      </li>
+    </ul>
+  </nav>
+
+  <hr />
+</div>
+
+```
+- In app.routes.ts
+```typescript
+import { Routes } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AboutComponentComponent } from './components/about-component/about-component.component';
+
+export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'about-component', component: AboutComponentComponent }, // Provide  path
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component:NotFoundComponent },      //Called WildCard
+];
+
+
+```
+
+- Ab hum apne UI per jaege and hum apna inspect me jakar network open kar lege and hum refresh karege to dekhege
+saare   component ke bundel ek sath load aa rage hai .
+- Hum chahte hai ki about component ka bundel alag se load ho jab ushki requirement ho which means jab hum click kare
+about per and jab load ho 
+```typescript
+ app.routes.ts
+
+export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  {
+    path: 'about-Component',		// provide lazy loading
+    loadComponent: () =>
+      import('./components/about-component/about-component.component').then(
+        (mod) => mod.AboutComponentComponent
+      ),
+  },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent }, //Called WildCard
+];
+```
+- Hamne Lazy load kiya hai about page ko
+
+
