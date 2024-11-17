@@ -1947,7 +1947,7 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent {
   constructor(private router: Router) {} 
-// agar use sign-up karta hai and sign-up button click karta hai
+// agar user sign-up karta hai and sign-up button click karta hai
 // to user navigate hoga login page per
 
   email = new FormControl('', [
@@ -2102,7 +2102,7 @@ export const routes: Routes = [
   { path: 'sign-up', component: SignUpComponent },
   {
     path: 'about-Component',		// provide lazy loading
-    loadComponent: () =>
+    loadComponent: () =>F
       import('./components/about-component/about-component.component').then(
         (mod) => mod.AboutComponentComponent
       ),
