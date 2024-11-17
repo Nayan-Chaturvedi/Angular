@@ -1899,13 +1899,13 @@ login.html
 <form class="container" [formGroup]="loginForm">
   <h4>Please Login</h4>
   <input type="email" placeholder="Enter an Email" [formControl]="email" />
-  <h5 class="red-text" [hidden]="loginForm.controls.email.valid || loginForm.controls.email.untouched"> Enter correct Email</h5>
-  <!-- agar email valid nahi hoga tab  Enter correct Email dekhe-->
-  <input type="password" placeholder="Enter an Password" [formControl]="password"/>
-  <h5 class="red-text" [hidden]="loginForm.controls.password.valid || loginForm.controls.password.untouched">password musy be required length</h5>
+  <h5 class="red-text" [hidden]="email.valid || email.untouched"> Enter correct Email</h5>
+  <input type="password" placeholder="Enter a Password" [formControl]="password"/>
+  <h5 class="red-text" [hidden]="password.valid || password.untouched">
+     Password must be of required length</h5>
 
-  <button class="btn-green" (click)="login()" [disabled]="loginForm.invalid">Login</button> 
-	// agar login form invalid hoga tab login button dsabled ho jaega
+  <button class="btn-green" [disabled]="loginForm.invalid" (click)="login()"
+  >Login</button>
   <button class="btn-red" (click)="reset()">Reset</button>
 </form>
 
@@ -2010,36 +2010,17 @@ sign-up.html
 
 <form class="container" [formGroup]="registerForm">
   <h4>Please SignUp</h4>
-  <input type="email" placeholder="Enter an Email" formControlName="email" />
-  <h5
-    class="red-text"
-    [hidden]="
-      registerForm.controls.email.valid || registerForm.controls.email.untouched
-    "
-  >
-    Enter correct Email
-  </h5>
-  <input
-    type="password"
-    placeholder="Enter a Password"
-    formControlName="password"
-  />
-  <h5
-    class="red-text"
-    [hidden]="
-      registerForm.controls.password.valid ||
-      registerForm.controls.password.untouched
-    "
-  >
-    Password must be of required length
-  </h5>
+  <input type="email" placeholder="Enter an Email" [formControl]="email" />
+  <h5 class="red-text" [hidden]="email.valid || email.untouched">Enter correct Email</h5>
+  <input type="password" placeholder="Enter a Password" [formControl]="password"/>
+  <h5 class="red-text" [hidden]="password.valid || password.untouched">
+	Password must be of required length</h5>
 
   <button class="btn-green" [disabled]="registerForm.invalid" (click)="signUp()">
-    signUp
-  </button>
+	signUp</button>
+
   <button class="btn-red" (click)="reset()">Reset</button>
 </form>
-
 
 ```
  ## Lazy Loading
@@ -2112,5 +2093,109 @@ export const routes: Routes = [
 ];
 ```
 - Hamne Lazy load kiya hai about page ko
+
+# Create Bin form Page 
+- Create Component
+```typescript
+PS D:\Angular_Tutorial\AngularProject\Project> ng g c components/crateBin
+```
+- In crate.html and Crate.ts
+```typescript
+<form class="container" [formGroup]="binForm">
+  <h4>Please Login</h4>
+  <input type="text" placeholder="Title" [formControl]="title" />
+// formControl- FormControl Angular mein ek tarika hai form fields ko handle karne ka
+  <h5 class="red-text" [hidden]="title.valid || title.untouched">
+    Title is required
+  </h5>
+   <textarea type="password" placeholder="Code Snippet Here" [formControl]="code" >
+</textarea>
+//jab aapko long messages ya comments type karne hote hain, text area ka use hota hai.
+  <h5 class="red-text" [hidden]="code.valid || code.untouched">
+    Code is required
+  </h5>
+
+  <button class="btn-green" [disabled]="binForm.invalid" (click)="save()">
+    Login
+  </button>
+</form>
+```
+
+```typescript
+crate.ts
+
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
+@Component({
+  selector: 'app-crate-bin',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  templateUrl: './crate-bin.component.html',
+  styleUrl: './crate-bin.component.css',
+})
+export class CrateBinComponent {
+  title = new FormControl('', [Validators.required]);
+
+  code = new FormControl('', [Validators.required, Validators.minLength(6)]);
+
+  binForm = new FormGroup({
+    title: this.title,
+    code: this.code,
+  });
+
+  save()
+  {
+    console.log(this.binForm.value)
+  }
+}
+
+```
+- Add in routes in app.routes.ts
+```typescript
+export const routes: Routes = [
+
+  { path: 'login', component: LoginComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'crate-bin', component: CrateBinComponent },
+  {
+    path: 'about-Component',
+    loadComponent: () =>
+      import('./components/about-component/about-component.component').then(
+        (mod) => mod.AboutComponentComponent
+      ),
+  },
+
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent }, //Called WildCard
+
+];
+```
+- Add in Navbar. html 
+```typescript
+export const routes: Routes = [
+
+  { path: 'login', component: LoginComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'crate-bin', component: CrateBinComponent },
+  {
+    path: 'about-Component',
+    loadComponent: () =>
+      import('./components/about-component/about-component.component').then(
+        (mod) => mod.AboutComponentComponent
+      ),
+  },
+
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent }, //Called WildCard
+
+];
+
+```
 
 

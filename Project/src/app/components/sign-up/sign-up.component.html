@@ -1,31 +1,10 @@
 <form class="container" [formGroup]="registerForm">
   <h4>Please SignUp</h4>
-  <input type="email" placeholder="Enter an Email" formControlName="email" />
-  <h5
-    class="red-text"
-    [hidden]="
-      registerForm.controls.email.valid || registerForm.controls.email.untouched
-    "
-  >
-    Enter correct Email
-  </h5>
-  <input
-    type="password"
-    placeholder="Enter a Password"
-    formControlName="password"
-  />
-  <h5
-    class="red-text"
-    [hidden]="
-      registerForm.controls.password.valid ||
-      registerForm.controls.password.untouched
-    "
-  >
-    Password must be of required length
-  </h5>
+  <input type="email" placeholder="Enter an Email" [formControl]="email" />
+  <h5 class="red-text" [hidden]="email.valid || email.untouched">Enter correct Email </h5>
+  <input type="password" placeholder="Enter a Password" [formControl]="password"/>
+  <h5 class="red-text" [hidden]="password.valid || password.untouched">Password must be of required length</h5>
 
-  <button class="btn-green" [disabled]="registerForm.invalid" (click)="signUp()">
-    signUp
-  </button>
+  <button class="btn-green" [disabled]="registerForm.invalid" (click)="signUp()">signUp</button>
   <button class="btn-red" (click)="reset()">Reset</button>
 </form>
