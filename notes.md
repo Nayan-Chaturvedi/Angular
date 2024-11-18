@@ -2306,7 +2306,7 @@ export class AuthService {
 }
 ```
 
-- Call regiter() in sign-up components
+- Call register() in sign-up components
 ```typescript
 import { Component } from '@angular/core';
 import {
@@ -2602,6 +2602,164 @@ navbar.html
 
 
 ```
+# Auth Guard
+- Angular mein Auth Guard ek security feature hai jo routes (pages) ko protect karta hai.
+ Matlab, yeh ensure karta hai ki sirf authenticated (logged in) users hi kuch specific
+ routes ko access kar sakein.
+- Hum create Bin me auth guard daalna hai.
+```typescript
+PS D:\Angular_Tutorial\AngularProject\Project> ng g guard auth
+```
+- Auth guard ek function hai
+```typescript
+import { CanActivateFn } from '@angular/router';
+
+export const authGuard: CanActivateFn = (route, state) => {
+  return true;
+};
+
+```
+- Agar auth guard function true return karega tab me CreateBin ko access kar sakta hu
+agar auth guard function false return kare tab me createbin ko accesss nahi kar sakta hu 
+esha hame logic likhna padega
+
+```typescript
+export const authGuard: CanActivateFn = () => {
+  // ye ek function hai to ishme hum service inject constructor ke throw 
+  // nahi karege
+  const authService=inject(AuthService);
+  if(authService.isAuthenticated())
+  {
+    return true;
+  }
+  else{
+    return false;
+  }
+  
+};
+```
+- Agar hum authGuard ko use karna hai to hum routes me jakar kuch configuration provide karege
+```typescript
+export const routes: Routes = [
+
+  { path: 'login', component: LoginComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'crate-bin', component: CrateBinComponent, canActivate:[authGuard] }, // here update
+  {
+    path: 'about-Component',
+    loadComponent: () =>
+      import('./components/about-component/about-component.component').then(
+        (mod) => mod.AboutComponentComponent
+      ),
+  },
+
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent }, 
+
+];
+```
+
+```typescript
+export const authGuard: CanActivateFn = () => {
+  //Hum create-bin ko access nahi kar sakte jab tak authanticate user na hojaye
+  //Agar hum create bin api ko hit karege bina autheticate huye to hume redirect
+  // karwana hai uska code likhna hai
+
+  const router = inject(Router);
+
+  const authService = inject(AuthService);
+  if (authService.isAuthenticated()) {
+    return true;
+  } else {
+    router.navigate(['/']); // Redirect code
+    return false;
+  }
+};
+```
+
+# FireStore database read and create service
+- in db.service.ts
+```typescript
+import { Injectable } from '@angular/core';
+import { addDoc, collection, getFirestore } from "firebase/firestore";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DbService {
+
+  private db:any
+  constructor() { 
+    this.db=getFirestore()
+  }
+
+  async createSnippet(snippet:{title:string, code:string})
+  {
+    try {
+      const docRef = await addDoc(collection(this.db, "snippet"),
+       snippet
+  );
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+ // Get snippet function
+  async getAllSnippet()
+  {
+    let result =[]
+    const querySnapshot = await getDocs(collection(this.db, "snippet"));
+    querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`);
+    result.push(doc.data)
+});
+  }
+
+ // Get single snippet
+ async getSnippetById(docId:string)
+ {
+  const docRef = doc(this.db, "snippet", "docId");
+  const docSnap = await getDoc(docRef);
+  
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data();
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+  }
+ }
+}
+```
+
+### Explain
+- async createSnippet(snippet): Yeh ek asynchronous method define karta hai jo ek naya document create
+ karta hai. Isme snippet parameter ek object hai jo title aur code properties rakhta hai.
+
+- try Block: collection(this.db, "snippet"): Yeh Firestore mein "snippet" collection specify karta hai.
+- collection(this.db, "snippet"):Yeh specify karta hai ki hum "snippet" collection mein document add karna chahte hain.
+ Socho isse hum database mein ek folder select kar rahe hain jisme documents rakhne hain.
+- addDoc: Yeh function "snippet" collection mein naya document add karta hai.
+ Matlab, aapne jo snippet object banaya tha usse Firestore mein store karta hai.
+
+// Get All data method Explain
+- const querySnapshot = await getDocs(collection(this.db, "snippet"));
+	-Yeh snippet collection se saare documents fetch karta hai aur querySnapshot mein store karta hai.
+	 await keyword wait karta hai jab tak saare documents fetch nahi ho jate.
+```typescript
+querySnapshot.forEach((doc) => {
+  console.log(`${doc.id} => ${doc.data()}`);
+  result.push(doc.data);
+});
+```
+- forEach((doc) => ...): Yeh snippet collection ke har document ke liye loop chalaata hai.
+- console.log(${doc.id} => ${doc.data()}): Yeh har document ki ID aur data ko console mein print karta hai.
+- doc data me title aur code dono hoga
+- result.push(doc.data): Har document ke data ko result array mein add karta hai.
+
+
+
 
 
 

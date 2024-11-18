@@ -4,12 +4,12 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AboutComponentComponent } from './components/about-component/about-component.component';
 import { CrateBinComponent } from './components/crate-bin/crate-bin.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
-
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
-  { path: 'crate-bin', component: CrateBinComponent },
+  { path: 'crate-bin', component: CrateBinComponent, canActivate: [authGuard] }, // here update
   {
     path: 'about-Component',
     loadComponent: () =>
@@ -19,6 +19,5 @@ export const routes: Routes = [
   },
 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent }, 
-
+  { path: '**', component: NotFoundComponent },
 ];
