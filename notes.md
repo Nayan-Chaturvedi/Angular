@@ -2199,4 +2199,410 @@ export const routes: Routes = [
 ```
 - CSS ChatGpt se generate karlo
 
+# FireBase Authentication
+- Hum 2 Services Banaege
+```typescript
+PS D:\Angular_Tutorial\AngularProject\Project> ng g s services/auth
+// Authentication se related code hum ish service me likhege
+
+PS D:\Angular_Tutorial\AngularProject\Project> ng g s services/db
+// Ish service se hum database se save ya get karege
+```
+- install bireBase in Our Project
+```typescript
+npm install firebase
+```
+- Project ke root me ek file create karo FireBaseConfig.ts Root means 
+	- node_modules
+	- src
+	- fireBaseConfig.ts	// Create Config file 
+	- .gitIgnore
+	- ...
+- And ush file me fireBase ka web app configuration daal do
+### Example
+```typescript
+// Yeh sirf example ke liye hai aapke case me alag ho sakta hai
+// and ish cofiguration me export keyword aage lagaya hai
+
+export const firebaseConfig = {
+    apiKey: "AIzaSyCJZoG6g73tpbj1j05XmJ_T17GZGV8aoIM",
+    authDomain: "codebin-ng-nayan.firebaseapp.com",
+    projectId: "codebin-ng-nayan",
+    storageBucket: "codebin-ng-nayan.firebasestorage.app",
+    messagingSenderId: "677595253714",
+    appId: "1:677595253714:web:3d302d84c2c913a593960b"
+  };
+```
+- And abb mujhe initilize app call karna hai ye hum app.component.ts me karege
+```typescript
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../firebaseConfig';	// import
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+})
+export class AppComponent {
+  constructor() {
+    initializeApp(firebaseConfig); // initialize fireBase
+  }
+}
+```
+- Authentication provide In auth.service.ts. (Code hame firebase me milega)
+```typescript
+import { Injectable } from '@angular/core';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
+ from 'firebase/auth'; // import
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  constructor() {}
+
+  // for registration of user
+  registerUser(email: string, password: string) {
+    const auth = getAuth();
+    // getAuth call kar rahe hai
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Yaha user sign-in ho jata hai tab hume
+        // user ke details milege
+        const user = userCredential.user;
+        console.log({ user });
+      })
+
+      .catch((error) => {
+        // agar koi error hota hai user ki details me
+        // tab catch block chalega
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert('Something went Wrong');
+      });
+  }
+
+  // Authentication for login-user
+  loginUser(email: string, password: string) {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+       
+        const errorMessage = error.message;
+        console.log(errorMessage)
+        alert("Something went wrong")
+      });
+  }
+}
+```
+
+- Call regiter() in sign-up components
+```typescript
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
+import { AuthService } from '../../services/auth.service';
+
+@Component({
+  selector: 'app-sign-up',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.css',
+})
+export class SignUpComponent {
+  // dependency inject authService
+  constructor(private authService:AuthService) {}
+
+  email = new FormControl('', [
+    
+    Validators.required,
+    Validators.email,
+  ]);
+
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
+
+ 
+  registerForm = new FormGroup({
+    email: this.email,
+    password: this.password,
+  });
+
+  signUp() {
+    const email = this.registerForm.value.email || '';
+    const password = this.registerForm.value.password || ''
+    
+    console.log(this.registerForm.value);
+    this.authService.registerUser(email, password);
+    //Jab user sign is hoga tab yaha se hamne registerUser() function call kiya
+    
+  }
+  reset() {
+    this.registerForm.reset();
+  }
+ 
+}
+
+```
+- After user sign-in we redirect user to /login page
+```typescript
+authservice.ts
+
+import { Injectable } from '@angular/core';
+import { Route } from '@angular/router';
+import { Router } from '@angular/router';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'; // import
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  constructor(private router: Router) {}
+
+  // for registration of user
+  registerUser(email: string, password: string) {
+    const auth = getAuth();
+    
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        
+        const user = userCredential.user;
+        console.log({ user });
+        // User jab sign-up hoga then ushe redirect kar dege
+        // /login page per
+        this.router.navigate(['/login'])
+      })
+
+      .catch((error) => {
+       
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert('Something went Wrong');
+      });
+  }
+
+  // Authentication for login-user
+  loginUser(email: string, password: string) {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+       
+        const user = userCredential.user;
+        // User jab sign-up hoga then ushe redirect kar dege
+        // /login page per
+        this.router.navigate(['/login'])
+        
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert('Something went wrong');
+      });
+  }
+}
+
+```
+- UID create
+```typescript
+import { Injectable } from '@angular/core';
+import { Route } from '@angular/router';
+import { Router } from '@angular/router';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from 'firebase/auth'; // import
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  // Agar UID Exist karta hai whiche means user login hai
+  private uid?: string;
+  constructor(private router: Router) {
+    // - Jab kabhi bhi user login karega ya log-out karega
+    // tab ye function chalega
+    // - Jab kabhi bhi hamara authenticate state change hoga
+    // which means either user login, either user sign-up or
+    // either user log-out tab ye function chalega
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.uid = user.uid;
+        console.log(this.uid);
+        console.log('User loggend in as ', user.email);
+      } else {
+        // jab kabhi user logout hoga tab uid undefined ho jaegi
+        this.uid=undefined
+        console.log('user logged out');
+      }
+    });
+  }
+
+  // for registration of user
+  registerUser(email: string, password: string) {
+    const auth = getAuth();
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log({ user });
+        this.router.navigate(['/login']);
+      })
+
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert('Something went Wrong on sign-up');
+      });
+  }
+
+  // Authentication for login-user
+  loginUser(email: string, password: string) {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        this.router.navigate(['/login']);
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert('Something went wrong While login');
+      });
+  }
+
+  // LogOut function
+  logOut() {
+    const auth = getAuth();
+    signOut(auth).catch((error) => {
+      console.log('something went wrong on while Sign Out');
+    });
+  }
+}
+```
+- Provide Log-out Functinalty
+```typescript
+navbar.ts
+
+export class NavbarComponent {
+  constructor(public authService:AuthService){}
+}
+
+
+```
+
+```typescript
+navbar.html
+
+<div>
+  <nav>
+    <h2><a routerLink="/">CodeBin</a></h2>
+    <ul>
+      <li> <a routerLink="/crate-bin" routerLinkActive="active">Create-bin</a> </li>
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/sign-up" routerLinkActive="active">sign-up</a></li>
+      <li (click)="authService.logOut()">Log-Out</li>
+      <li> <a routerLink="/about-Component" routerLinkActive="active">About</a></li>
+    </ul>
+  </nav>
+
+  <hr />
+</div>
+
+
+```
+
+- Agar user login nahi hai to user ko kuch hi option dikhe navbar me
+```typescript
+auth.service.ts
+
+export class AuthService {
+  // Agar UID Exist karta hai whiche means user login hai
+  private uid?: string;
+  constructor(private router: Router) {
+    // - Jab kabhi bhi user login karega ya log-out karega
+    // tab ye function chalega
+    // - Jab kabhi bhi hamara authenticate state change hoga
+    // which means either user login, either user sign-up or
+    // either user log-out tab ye function chalega
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.uid = user.uid;
+        console.log(this.uid);
+        console.log('User loggend in as ', user.email);
+      } else {
+        
+        this.uid=undefined
+        console.log('user logged out');
+      }
+    });
+  }
+
+  isAuthenticated()
+  {
+    //Agar user login hai to true return karuga otherwise false return karuga
+    return this.uid?true:false;
+  }
+
+```
+
+```typescript
+navbar.html
+
+<div>
+  <nav>
+    <h2><a routerLink="/">CodeBin</a></h2>
+    <ul>
+      <li> <a routerLink="/crate-bin" routerLinkActive="active">Create-bin</a> </li>
+      @if(authService.isAuthenticated())
+      {
+        <li (click)="authService.logOut()">Log-Out</li>
+      }
+      @else {
+        <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+        <li><a routerLink="/sign-up" routerLinkActive="active">sign-up</a></li>
+      }
+    
+      
+      <li> <a routerLink="/about-Component" routerLinkActive="active">About</a></li>
+    </ul>
+  </nav>
+
+  <hr />
+</div>
+
+
+```
+
+
+
 

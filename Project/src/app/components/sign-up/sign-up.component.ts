@@ -5,7 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,10 +16,11 @@ import { Router } from '@angular/router';
   styleUrl: './sign-up.component.css',
 })
 export class SignUpComponent {
-  constructor(private router: Router) {}
+  // dependency inject authService
+  constructor(private authService:AuthService) {}
 
   email = new FormControl('', [
-    // Initial value empty hai
+    
     Validators.required,
     Validators.email,
   ]);
@@ -28,20 +30,23 @@ export class SignUpComponent {
     Validators.minLength(6),
   ]);
 
-  // ab hame email and passsword ko group karna hai
-
+ 
   registerForm = new FormGroup({
     email: this.email,
     password: this.password,
   });
 
   signUp() {
-    // Ish function ko hum button click par call karege
+    const email = this.registerForm.value.email || '';
+    const password = this.registerForm.value.password || '';
+    
     console.log(this.registerForm.value);
-    this.router.navigate(['/login']);
+    this.authService.registerUser(email, password);
+    //Jab user sign is hoga tab yaha se hamne registerUser() function call kiya
+    
   }
   reset() {
     this.registerForm.reset();
   }
-  // Reset function se hum formGroup ko reset kar sakte hai
+ 
 }
