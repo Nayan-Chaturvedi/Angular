@@ -1700,7 +1700,48 @@ export class CounterService {
   }
 }
 
+
 ```
+# Extra
+## ?
+1. Jab aapko kisi object ki property ko access karna hota hai jo null ya undefined ho sakti hai.
+```typescript
+const user = { name: "Alice", details: { age: 30 } };
+const age = user.details?.age;  // agar user.details exist karta hai, to age set ho jayega
+```
+2. Function parameters ko optional banane ke liye use hota hai.
+```typescript
+function greet(name: string, age?: number) {
+  console.log(`Hello ${name}`);
+  if (age !== undefined) {
+    console.log(`You are ${age} years old.`);
+  }
+}
+
+```
+
+## !
+1. Yeh TypeScript ko batata hai ki yeh value kabhi null ya undefined nahi hogi.
+```typescript
+let myString: string | undefined;
+myString = "Hello";
+console.log(myString!.length);  // yeh batata hai ki myString definitely undefined nahi hai
+
+```
+
+2. Yeh batata hai ki variable ko use hone se pehle zaroor assign kiya jayega, chahe TypeScript ko 
+ye nahi dikh raha ho.
+```typescript
+let myNumber!: number;  // batata hai ki myNumber ko baad mein zaroor assign karenge
+initialize();
+console.log(myNumber);  // koi error nahi aayega
+
+function initialize() {
+  myNumber = 10;
+}
+
+```
+
 ---
 # Project
 ---
@@ -2728,6 +2769,11 @@ export class DbService {
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
+	 return {
+      id:"",
+      title:"not Defined",
+      code:"not found"
+    }
   }
  }
 }
@@ -2758,9 +2804,89 @@ querySnapshot.forEach((doc) => {
 - doc data me title aur code dono hoga
 - result.push(doc.data): Har document ke data ko result array mein add karta hai.
 
+ ```typsript
+const docRef = doc(this.db, "snippet", docId);
+```
+- Yeh Firestore mein "snippet" collection ka specific document select karta hai jiska ID docId hai. Matlab, yeh specify karta hai ki kis document ko fetch karna hai.
 
+```tpesript
+const docSnap = await getDoc(docRef);
+```
+- getDoc(docRef): Yeh function specified document ko fetch karta hai aur result docSnap mein store karta hai. await keyword wait karta hai jab tak document fetch nahi ho jata.
 
+# Create code snippet and firestore setup
+- Go to createBin.ts
+```typescript
+  async save()
+  {
+    console.log(this.binForm.value)
+   await this.dbService.createSnippet(this.binForm.value as Snippet) // TypeCasting
+  }
+```
+- Create model folder inside src.
+- In model folder inside Snippet.ts
+```typescript
+export type Snippet=
+{
+     title: string; code: string
+ }
+```
+- And in db.service.ts
+```typescript
+async createSnippet(snippet: Snippet) // Update this line
+``` 
+---
+# Extra
+## Typecasting
+- Typecasting ka matlab hota hai ek variable ko ek specific type mein convert karna
+```typescript
+let someValue: unknown = "Hello, Angular!";
+let strLength: number = (someValue as string).length;
+console.log(strLength); // Output: 15
 
+```
+- someValue ko string type mein convert kiya gaya hai as keyword se, taaki hum uska length property access kar sakein.
+- as Keyword ka use typecasting me karte hai
+---
+# Show all Code Snippet on Home page
+- Generate 2 Components
+```typescript
+ng g components/home
+ng g c components/snippet
+```
+- Provide Routes
+```typescript
+export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'crate-bin', component: CrateBinComponent, canActivate: [authGuard] }, // here update
+  {
+    path: 'about-Component',
+    loadComponent: () =>
+      import('./components/about-component/about-component.component').then(
+        (mod) => mod.AboutComponentComponent
+      ),
+  },
+
+  { path: '', component:HomeComponent },
+  { path: 'snippet/:id', component:SnippetComponent },
+  { path: '**', component: NotFoundComponent },
+];
+```
+- HomeCompoenet.ts
+```typescript
+export class HomeComponent {
+  constructor(private dbService: DbService) {}
+
+  items = [];
+  ngOnInit() {
+    this.dbService.getAllSnippet().then((data: any) => {
+      console.log(data)
+      this.items = data;
+    });
+  }
+}
+```
 
 
 

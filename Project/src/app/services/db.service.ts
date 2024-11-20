@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+} from 'firebase/firestore';
+import { Snippet } from '../../models/snippet';
+import { title } from 'process';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +19,7 @@ export class DbService {
     this.db = getFirestore();
   }
 
-  async createSnippet(snippet: { title: string; code: string }) {
+  async createSnippet(snippet: Snippet) {
     try {
       const docRef = await addDoc(collection(this.db, 'snippet'), snippet);
       console.log('Document written with ID: ', docRef.id);
@@ -28,21 +37,26 @@ export class DbService {
       console.log(`${doc.id} => ${doc.data()}`);
       result.push(doc.data);
     });
+    console.log('resuklt is ', result);
     return result;
   }
 
   // Get single snippet
- async getSnippetById(docId:string)
- {
-  const docRef = doc(this.db, "snippet", "docId");
-  const docSnap = await getDoc(docRef);
-  
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    return docSnap.data();
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
+  async getSnippetById(docId: string) {
+    const docRef = doc(this.db, 'snippet', 'docId');
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data:', docSnap.data());
+      return docSnap.data();
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log('No such document!');
+      return {
+        id: '',
+        title: 'not Defined',
+        code: 'not found',
+      };
+    }
   }
- }
 }

@@ -5,6 +5,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AboutComponentComponent } from './components/about-component/about-component.component';
 import { CrateBinComponent } from './components/crate-bin/crate-bin.component';
 import { authGuard } from './auth.guard';
+import { HomeComponent } from './components/home/home.component';
+import { SnippetComponent } from './components/snippet/snippet.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,6 +20,7 @@ export const routes: Routes = [
       ),
   },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', component:HomeComponent },
+  { path: 'snippet/:id', component:SnippetComponent },
   { path: '**', component: NotFoundComponent },
 ];

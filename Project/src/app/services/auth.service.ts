@@ -13,14 +13,10 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  // Agar UID Exist karta hai whiche means user login hai
+  
   private uid?: string;
   constructor(private router: Router) {
-    // - Jab kabhi bhi user login karega ya log-out karega
-    // tab ye function chalega
-    // - Jab kabhi bhi hamara authenticate state change hoga
-    // which means either user login, either user sign-up or
-    // either user log-out tab ye function chalega
+   
 
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {

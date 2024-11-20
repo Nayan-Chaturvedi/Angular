@@ -1,0 +1,11 @@
+<div>
+    <ul>
+        @if(items.length == 0)
+        {
+            <li>No Data</li>
+        }
+        @for (item of items; track $index) {
+            <li>{{item}}</li>
+        }
+    </ul>
+</div>
