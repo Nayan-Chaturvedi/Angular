@@ -1,13 +1,15 @@
-\- 2 Types of Code  - Async  - Sync - Aynsc code wo code hota hai jo
+- 2 Types of Code  - Async  - Sync - Aynsc code wo code hota hai jo
 thodi der baad chalega
 
-\# SetTimeOut Function - The setTimeOut() method calls a function after
-a number of milliSeconds. - The setTimeOut() execute a block of a code
-after a specified time. - The method execute the code only once. -
-SetTimeOut() is an asynchronous function, meaning that the timew
-function will not pause the execution of other function in the
-execution\'s stack. -Syntax \`\`\`typescript setTimeout(function,
-milliseconds); \`\`\`
+# SetTimeOut Function 
+- The setTimeOut() method calls a function after a number of milliSeconds.
+- The setTimeOut() execute a block of a code after a specified time.
+- The method execute the code only once.
+- SetTimeOut() is an asynchronous function, meaning that the function will not pause the execution of other function in the executions stack.
+- Syntax
+  ```typescript
+  setTimeout(function, milliseconds);
+  ```
 
 \### Example \`\`\`typescript setTimeout(function () {
 console.log(\"This will execute later\"); }, 3000); \`\`\`
