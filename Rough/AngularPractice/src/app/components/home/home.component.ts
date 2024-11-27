@@ -5,39 +5,32 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  input,
   Input,
   numberAttribute,
   OnChanges,
   OnDestroy,
   OnInit,
-  output,
   Output,
   SimpleChanges,
   ViewChild,
+  viewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { User } from '../../../models/user';
-import { CountryCodePipe } from '../../pipes/country-code.pipe';
-import { HighlightDirective } from '../../directives/highlight.directive';
+import { HighlightDirective } from '../../directive/highlight.directive';
+import { ServicesService } from '../../services.service';
 
-function addName(value: string) {
-  return 'Hi ' + value;
+function formatName(name: string) {
+  return 'hi ' + name;
 }
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CountryCodePipe, HighlightDirective],
+  imports: [CommonModule, HighlightDirective],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements AfterViewInit {
-  @Input() name = '';
-
-  @ViewChild('myHeading') heading?: ElementRef;
-
-  ngAfterViewInit(): void {
-    console.log('After view Init', this.heading?.nativeElement.textContent);
-  }
+export class HomeComponent {
+  constructor(public service:ServicesService){}
+  
 }
