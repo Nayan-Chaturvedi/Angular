@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <script>
+      function loadAboutInfrm() {
+        // Call To Ajax
+        var request = new XMLHttpRequest();
+        request.open("GET", "about.html");
+        // Jab req. ka resonse aa jaega server se
+        // to hame listner bhi lagana padega
+
+        // request ke pass ek property hai onreadystatechange
+        request.onreadystatechange = function () {
+          // call whenever state change
+          // 4 is code which means the operation is complete
+          // complete and successfull
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('container').innerHTML=this.responseText
+            // data print
+          }
+        };
+        request.send();
+      }
+    </script>
+  </head>
+  <body>
+    <h1>WELCOME TO HOME PAGE</h1>
+    <a href="about.html">About page</a>
+    <div id="container"></div>
+    <button onclick="loadAboutInfrm()">Load About</button>
+  </body>
+</html>
